@@ -25,8 +25,8 @@ public class SpellCooldownMixin {
 
     @Unique
     private final Map<Integer, Integer> adj$spellCooldowns = Map.of(
-            1, 9,
-            2, 7,
+            1, 7,
+            2, 6,
             3, 5,
             99, 5
     );

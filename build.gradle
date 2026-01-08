@@ -163,10 +163,7 @@ dependencies {
 
     modImplementation "com.hollingsworth.ars_nouveau:ars_nouveau-${project.minecraft_version}:${ars_version}"
 
-    modImplementation "curse.maven:coroutil-237749:5096038"
-    modImplementation "curse.maven:zombie-awareness-237754:5096285"
-
-    compileOnly "curse.maven:bigger-stacks-564896:6458432"
+    compileOnly "curse.maven:bigger-stacks-564896:7423694"
 
     //modImplementation "com.aetherteam.aether:aether:${project.aether_version}"
 
@@ -178,6 +175,14 @@ dependencies {
     compileOnly("curse.maven:ftb-teams-forge-404468:6130786")
     compileOnly("curse.maven:ftb-library-forge-404465:7296748")
     compileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
+
+    modImplementation("curse.maven:quark-243121:6427817")
+    modImplementation("curse.maven:zeta-968868:7335229")
+
+//    compileOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE:api"
+//    runtimeOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE"
+//
+//    implementation "vazkii.botania:Botania:1.20.1-450-FORGE"
 }
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']

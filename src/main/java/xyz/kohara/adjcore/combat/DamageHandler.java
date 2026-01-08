@@ -182,8 +182,8 @@ public class DamageHandler {
         LivingEntity livingAttacker = (attackerEntity instanceof LivingEntity le) ? le : null;
 
         // 0. Prevent damaging tamed animals
-        if (victimEntity instanceof TamableAnimal tamableAnimal) {
-            if (tamableAnimal.getOwner() == attackerEntity && !attackerEntity.isShiftKeyDown()) {
+        if (livingAttacker != null && victimEntity instanceof TamableAnimal tamableAnimal) {
+            if (tamableAnimal.getOwner() == livingAttacker && !livingAttacker.isShiftKeyDown()) {
                 event.setAmount(0);
 //                event.setCanceled(true);
                 return;
@@ -283,9 +283,9 @@ public class DamageHandler {
         if (!source.is(DamageTypeTags.BYPASSES_ARMOR)) {
             int armorToughness = (int) getAttributeValue(victimEntity, Attributes.ARMOR_TOUGHNESS);
 
-            if (attackerEntity instanceof LivingEntity attacker) {
-                int armorPierce = (int) getAttributeValue(attacker, ALObjects.Attributes.ARMOR_PIERCE.get());
-                float armorShred = Math.max(1 - getAttributeValue(attacker, ALObjects.Attributes.ARMOR_SHRED.get()), 0);
+            if (livingAttacker != null) {
+                int armorPierce = (int) getAttributeValue(livingAttacker, ALObjects.Attributes.ARMOR_PIERCE.get());
+                float armorShred = Math.max(1 - getAttributeValue(livingAttacker, ALObjects.Attributes.ARMOR_SHRED.get()), 0);
                 armorPierce = Math.max(0, armorPierce - armorToughness);
                 armorPoints = Math.max(Math.round(armorPoints * armorShred) - armorPierce, 0);
             }

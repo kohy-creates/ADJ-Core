@@ -44,9 +44,6 @@ public abstract class GuiItemRenderingMixinBiggerStacks {
     private PoseStack pose;
 
     @Shadow
-    public abstract int drawString(Font font, @Nullable String text, int x, int y, int color, boolean dropShadow);
-
-    @Shadow
     public abstract int drawString(Font font, Component text, int x, int y, int color, boolean dropShadow);
 
     @Unique
@@ -76,10 +73,11 @@ public abstract class GuiItemRenderingMixinBiggerStacks {
     private static double calculateStringScale(Font font, String countString) {
         var width = font.width(countString);
 
-        if (width < 16)
+        if (width < 16) {
             return 1.0;
-        else
+        } else {
             return 16.0 / width;
+        }
     }
 
     @Redirect(
@@ -155,6 +153,7 @@ public abstract class GuiItemRenderingMixinBiggerStacks {
     }
 
     //Inject the new text rendering
+    //Inject the new text rendering
     @Inject(method = "renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)I"))
@@ -165,8 +164,8 @@ public abstract class GuiItemRenderingMixinBiggerStacks {
 
         float scale = (float) calculateStringScale(font, text);
         float inverseScale = 1 / scale;
-        float xTransform = (x + 16) * inverseScale - font.width(text);
-        float yTransform = (y + 16) * inverseScale - font.lineHeight;
+        float xTransform = (x + 16) * inverseScale - font.width(text) + 1;
+        float yTransform = (y + 16) * inverseScale - font.lineHeight + 2;
 
         poseStack.scale(scale, scale, 1);
         poseStack.translate(xTransform, yTransform, 200);

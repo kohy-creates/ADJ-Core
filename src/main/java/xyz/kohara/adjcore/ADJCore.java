@@ -25,6 +25,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xyz.kohara.adjcore.attributes.AttributeFunctions;
+import xyz.kohara.adjcore.compat.ArsSpellPowerEdit;
 import xyz.kohara.adjcore.entity.HardcoreTweaks;
 import xyz.kohara.adjcore.registry.*;
 import xyz.kohara.adjcore.client.music.JukeboxTracker;
@@ -69,7 +70,7 @@ public class ADJCore {
         MOD_BUS.addListener(ADJCapabilities::register);
         MOD_BUS.addListener(LangGenerator::gatherData);
 
-        FORGE_BUS.register(this);
+        FORGE_BUS.register(ADJCore.class);
         FORGE_BUS.register(DamageHandler.class);
         FORGE_BUS.register(DelayedTaskScheduler.class);
         FORGE_BUS.register(WanderingTraderEdits.class);
@@ -78,6 +79,7 @@ public class ADJCore {
         FORGE_BUS.register(DamageIndicators.class);
         FORGE_BUS.register(HardcoreTweaks.class);
         FORGE_BUS.register(AttributeFunctions.class);
+        FORGE_BUS.register(ArsSpellPowerEdit.class);
 
         JukeboxTracker.init();
 
@@ -155,7 +157,7 @@ public class ADJCore {
     }
 
     @SubscribeEvent
-    public void onServerChat(ServerChatEvent event) {
+    public static void onServerChat(ServerChatEvent event) {
         event.setCanceled(true);
 
         Component message = event.getMessage();

@@ -27,7 +27,6 @@
 		"compat.StructureGelBuildToolMixin",
 		"compat.TerraCurioEntityMixinFix",
 		"compat.TerraCurioNukeJEIDescriptions",
-		"compat.ZombieAwarenessHardcoreMixin",
 		"death.DeathMessageTameableAnimal",
 		"death.RemoveHardcorePermadeathMixin",
 		"effect.AbsorptionEffectMixin",
