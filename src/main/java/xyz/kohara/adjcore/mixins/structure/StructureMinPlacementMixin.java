@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.kohara.adjcore.ADJCore;
+import xyz.kohara.adjcore.ADJData;
 import xyz.kohara.adjcore.Config;
 import xyz.kohara.adjcore.misc.IGeneratorNearbyStructureHolder;
 
@@ -68,7 +69,7 @@ public abstract class StructureMinPlacementMixin {
         ResourceLocation regID = registryAccess.registry(Registries.STRUCTURE).get().getKey((Structure) (Object) this);
         if (regID != null) {
             name = regID.toString();
-            if (ADJCore.structuresIgnoreMinDistance.contains(name)) {
+            if (ADJData.structuresIgnoreMinDistance.contains(name)) {
                 ADJCore.LOGGER.warn("Skipping structure minimum distance check, found override for {}", name);
                 return;
             }

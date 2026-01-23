@@ -16,4 +16,6 @@ public interface ArsManaShenanigans {
         throw new RuntimeException();
     }
 
+    default void adjcore$restoreMana(int amount) {
+    }
 }

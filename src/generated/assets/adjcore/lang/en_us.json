@@ -1,6 +1,8 @@
 {
   "attribute.name.generic.damage_reduction": "Damage Reduction",
   "attribute.name.generic.damage_reduction.desc": "Reduces incoming damage. Stacks with other forms of damage reduction.",
+  "attribute.name.generic.healing_reduction": "Reduced Healing",
+  "attribute.name.generic.healing_reduction.desc": "Incoming healing will be reduced by this value.",
   "attribute.name.generic.health_regeneration": "Health Regeneration",
   "attribute.name.generic.health_regeneration.desc": "Extra health regeneration in points per second. This is ticked separately outside of natural health regeneration.",
   "attribute.name.generic.projectile_damage_reduction": "Projectile Damage Reduction",
@@ -15,6 +17,18 @@
   "effect.adjcore.cozy_campfire": "Cozy Campfire",
   "effect.adjcore.cozy_campfire.desc": "Slowly regenerates lost life",
   "effect.adjcore.cozy_campfire.description": "Slowly regenerates lost life",
+  "effect.adjcore.instant_mana": "Instant Mana",
+  "effect.adjcore.instant_mana.desc": "Instantly replenishes some mana",
+  "effect.adjcore.instant_mana.description": "Instantly replenishes some mana",
+  "effect.adjcore.lesser_instant_health": "Lesser Instant Health",
+  "effect.adjcore.lesser_instant_health.desc": "Instantly replenishes a small amount of lost health",
+  "effect.adjcore.lesser_instant_health.description": "Instantly replenishes a small amount of lost health",
   "fluid_type.adjcore.shimmer": "Shimmer",
-  "item.adjcore.shimmer_bucket": "Shimmer Bucket"
+  "item.adjcore.heart": "Heart",
+  "item.adjcore.mana_star": "Mana Star",
+  "item.adjcore.shimmer_bucket": "Shimmer Bucket",
+  "item.minecraft.lingering_potion.effect.adjcore.instant_mana": "Lingering Potion ofGreater Mana",
+  "item.minecraft.potion.effect.adjcore.instant_mana": "Potion of Greater Mana",
+  "item.minecraft.splash_potion.effect.adjcore.instant_mana": "Splash Potion ofGreater Mana",
+  "item.minecraft.tipped_arrow.effect.adjcore.instant_mana": "Arrow of Greater Mana"
 }

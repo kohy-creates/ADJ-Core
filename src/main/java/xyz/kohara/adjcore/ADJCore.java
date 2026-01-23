@@ -1,18 +1,23 @@
 package xyz.kohara.adjcore;
 
-import dev.ftb.mods.ftbquests.quest.QuestObject;
-import net.minecraft.client.gui.screens.OptionsScreen;
+import com.hollingsworth.arsnouveau.common.entity.EntitySpellArrow;
+import com.hollingsworth.arsnouveau.common.items.ItemScroll;
+import com.hollingsworth.arsnouveau.common.items.SpellArrow;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -25,6 +30,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xyz.kohara.adjcore.attributes.AttributeFunctions;
+import xyz.kohara.adjcore.combat.ExtraLivingDrops;
 import xyz.kohara.adjcore.compat.ArsSpellPowerEdit;
 import xyz.kohara.adjcore.entity.HardcoreTweaks;
 import xyz.kohara.adjcore.registry.*;
@@ -32,9 +38,9 @@ import xyz.kohara.adjcore.client.music.JukeboxTracker;
 import xyz.kohara.adjcore.client.music.MusicConfig;
 import xyz.kohara.adjcore.client.networking.ADJMessages;
 import xyz.kohara.adjcore.combat.DamageHandler;
-import xyz.kohara.adjcore.combat.DamageIndicators;
+import xyz.kohara.adjcore.misc.ParticleTextIndicators;
 import xyz.kohara.adjcore.compat.curios.CurioControl;
-import xyz.kohara.adjcore.registry.effects.editor.EffectsEditor;
+import xyz.kohara.adjcore.effecteditor.EffectsEditor;
 import xyz.kohara.adjcore.entity.WanderingTraderEdits;
 import xyz.kohara.adjcore.misc.DelayedTaskScheduler;
 import xyz.kohara.adjcore.misc.LangGenerator;
@@ -44,10 +50,6 @@ import xyz.kohara.adjcore.misc.credits.ModCreditsBase;
 import xyz.kohara.adjcore.misc.credits.ModInfo;
 import xyz.kohara.adjcore.potions.PotionsEditor;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Mod(ADJCore.MOD_ID)
@@ -76,10 +78,11 @@ public class ADJCore {
         FORGE_BUS.register(WanderingTraderEdits.class);
         FORGE_BUS.register(CurioControl.class);
         FORGE_BUS.register(CapabilityEvents.class);
-        FORGE_BUS.register(DamageIndicators.class);
+        FORGE_BUS.register(ParticleTextIndicators.class);
         FORGE_BUS.register(HardcoreTweaks.class);
         FORGE_BUS.register(AttributeFunctions.class);
         FORGE_BUS.register(ArsSpellPowerEdit.class);
+        FORGE_BUS.register(ExtraLivingDrops.class);
 
         JukeboxTracker.init();
 
@@ -99,6 +102,7 @@ public class ADJCore {
         ADJFluids.register(bus);
         ADJBlocks.register(bus);
         ADJItems.register(bus);
+        ADJEntities.register(bus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -108,6 +112,7 @@ public class ADJCore {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
+
     }
 
     public static ResourceLocation of(String path) {
@@ -178,65 +183,6 @@ public class ADJCore {
         });
     }
 
-    private static final String deathTextsFile = "config/" + ADJCore.MOD_ID + "/death_text.txt";
-    private static final List<String> deathTexts = new ArrayList<>();
-
-    private static final String structuresIgnoreMinDistanceFile = "config/" + ADJCore.MOD_ID + "/structures_ignore_min_distance.txt";
-    public static final List<String> structuresIgnoreMinDistance = new ArrayList<>();
-
-    private static final String potionNameOverridesFile = "config/" + ADJCore.MOD_ID + "/potion_name_overrides.txt";
-    public static final Map<String, String> potionNameOverrides = new HashMap<>();
-
-    private static final String windowTitlesFile = "config/" + ADJCore.MOD_ID + "/window_titles.txt";
-    public static final List<String> windowTitles = new ArrayList<>();
-
-    static {
-        deathTexts.addAll(
-                readLines(deathTextsFile)
-        );
-
-        structuresIgnoreMinDistance.addAll(
-                readLines(structuresIgnoreMinDistanceFile)
-        );
-
-        potionNameOverrides.putAll(
-                readMap(potionNameOverridesFile, ":")
-        );
-
-        windowTitles.addAll(
-                readLines(windowTitlesFile)
-        );
-    }
-
-    private static List<String> readLines(String path) {
-        try {
-            Path file = Paths.get(path);
-            Files.createDirectories(file.getParent());
-            if (Files.notExists(file)) {
-                Files.createFile(file);
-            }
-            return Files.readAllLines(file);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read config: " + path, e);
-        }
-    }
-
-    private static Map<String, String> readMap(String path, String separator) {
-        Map<String, String> map = new HashMap<>();
-        for (String line : readLines(path)) {
-            if (line.isBlank() || !line.contains(separator)) continue;
-
-            String[] parts = line.split(separator, 2);
-            map.put(parts[0].trim(), parts[1].trim());
-        }
-        return map;
-    }
-
-    public static String getRandomDeathText() {
-        Random rand = new Random();
-        return "\"" + deathTexts.get(rand.nextInt(deathTexts.size())) + "\"";
-    }
-
     public static String toSmallUnicode(String s) {
         Map<Character, Character> map = new HashMap<>();
         String[] mappings = {"aᴀ", "bʙ", "cᴄ", "dᴅ", "eᴇ", "fꜰ", "gɢ", "hʜ", "iɪ", "jᴊ", "kᴋ", "lʟ", "mᴍ", "nɴ", "oᴏ", "pᴘ", "rʀ", "sѕ", "tᴛ", "uᴜ", "wᴡ", "xх", "yʏ", "zᴢ"};
@@ -249,4 +195,44 @@ public class ADJCore {
         }
         return result.toString();
     }
+
+    public static String deathMessageToFirstPerson(Player player, Component msg) {
+        return deathMessageToFirstPerson(player, msg.getString());
+    }
+
+    public static String deathMessageToFirstPerson(Player player, String msg) {
+        String name = player.getName().getString();
+
+        if (msg.indexOf(name) == 0) {
+            msg = msg.replaceFirst(name, "You");
+            msg = msg.replaceFirst(name + "'s", "Your");
+        } else {
+            msg = msg.replaceFirst(name, "you");
+            msg = msg.replaceFirst(name + "'s", "your");
+        }
+        msg = msg.replaceFirst("You was", "You were");
+        msg = msg.replace("their", "your");
+
+        return msg;
+    }
+
+    public static List<Player> getPlayersInRadius(Level level, BlockPos center, double radius) {
+        AABB box = new AABB(
+                center.getX() - radius, center.getY() - radius, center.getZ() - radius,
+                center.getX() + radius, center.getY() + radius, center.getZ() + radius
+        );
+
+        List<Player> players = level.getEntitiesOfClass(Player.class, box);
+
+        players.removeIf(p -> p.distanceToSqr(center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5) > radius * radius);
+        return players;
+    }
+
+    public static Player getNearestPlayerWithinRadius(Entity entity, double radius) {
+        return getPlayersInRadius(entity.level(), entity.blockPosition(), radius)
+                .stream()
+                .min(Comparator.comparingDouble(p -> p.distanceToSqr(entity)))
+                .orElse(null);
+    }
+
 }

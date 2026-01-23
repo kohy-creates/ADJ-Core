@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.kohara.adjcore.ADJCore;
+import xyz.kohara.adjcore.ADJData;
 import xyz.kohara.adjcore.registry.ADJSoundEvents;
 
 import javax.annotation.Nullable;
@@ -109,7 +110,7 @@ public abstract class DeathScreenMixin extends Screen {
         // x2 in hardcore, x1.5 in multiplayer
         adj$respawnTimer = (int) (140 * ((hardcore) ? 2 : 1) * (!minecraft.isSingleplayer() ? 1.5 : 1));
 
-        adj$deathText = ADJCore.getRandomDeathText();
+        adj$deathText = ADJData.getRandomDeathText();
         minecraft.getSoundManager().play(
                 SimpleSoundInstance.forUI(
                         ADJSoundEvents.DEATH_SCREEN.get(),
@@ -136,9 +137,7 @@ public abstract class DeathScreenMixin extends Screen {
         guiGraphics.pose().popPose();
 
         if (this.causeOfDeath != null) {
-            String deathCause = this.causeOfDeath.getString().substring(2)
-                    .replace(minecraft.player.getName().getString(), "You")
-                    .replace("was", "were");
+            String deathCause = ADJCore.deathMessageToFirstPerson(this.minecraft.player, this.causeOfDeath.getString().substring(2));
             guiGraphics.drawCenteredString(this.font, Component.literal(deathCause).withStyle(Style.EMPTY.withColor(TextColor.parseColor("#9E9E9E"))), width / 2, 130, 0xFFFFFFFF);
         }
 

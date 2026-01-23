@@ -130,7 +130,7 @@ dependencies {
 
     modImplementation "dev.emi:emi-forge:${emi_version}"
 
-    modImplementation("curse.maven:terra-curio-1027625:6566491")
+    modImplementation("curse.maven:terra-curio-1027625:7449534")
 
     compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.3"))
     implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-forge:0.3.3"))

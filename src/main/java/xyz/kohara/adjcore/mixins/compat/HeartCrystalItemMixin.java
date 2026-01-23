@@ -34,7 +34,7 @@ public abstract class HeartCrystalItemMixin {
             info.syncHealthInfo(player);
             HCEvents.setMaxHealthAttribute(info.heartCount * 20, player);
             stack.shrink(1);
-            player.heal(2f);
+//            player.heal(2f);
             player.getCooldowns().addCooldown(item, 10);
             level.playSound(player, player.blockPosition(), HCSoundEvents.HEART_CRYSTAL_USE.get(), SoundSource.PLAYERS, .65f, 1f + ((level.random.nextFloat() - .5f) / 8f));
 

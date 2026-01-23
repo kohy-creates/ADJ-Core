@@ -27,6 +27,8 @@ import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import oshi.util.tuples.Pair;
+import xyz.kohara.adjcore.misc.ParticleTextIndicators;
 import xyz.kohara.adjcore.registry.ADJParticles;
 
 import java.awt.*;
@@ -43,7 +45,7 @@ public class DamageParticle extends Particle {
     private final Font fontRenderer = Minecraft.getInstance().font;
 
     private final Component text;
-    private final List<Color> color;
+    private final Pair<Color, Color> color;
     private float fadeout = 0;
     private float prevFadeout = 0;
 
@@ -53,7 +55,7 @@ public class DamageParticle extends Particle {
 
     private final int type;
 
-    private float maxRotation;
+    private final float maxRotation;
     private float rotationSpeed;  // how fast it swings
     private float rotation;
 
@@ -70,13 +72,8 @@ public class DamageParticle extends Particle {
         this.lifetime = 60;
 
         this.type = (int) type;
-        List<List<Color>> COLORS = List.of(
-                List.of(Color.decode("#F58E27"), Color.decode("#FAAE64")),
-                List.of(Color.decode("#9C0909"), Color.decode("#E33B3B")),
-                List.of(Color.decode("#3BE346"), Color.decode("#7EE686")),
-                List.of(Color.decode("#FF3300"), Color.decode("#FF7E42"))
-        );
-        this.color = COLORS.get(this.type);
+
+        this.color = ParticleTextIndicators.Type.fromValue((int) type).getColors();
 
         this.yd = 1;
 
@@ -144,7 +141,7 @@ public class DamageParticle extends Particle {
         float x1 = 0.5f - fontRenderer.width(text) / 2f;
         float y1 = 0.5f - fontRenderer.lineHeight;
 
-        int color = flashColor(this.color.get(0), this.color.get(1));
+        int color = flashColor(this.color.getA(), this.color.getB());
 
         renderNumber(this.text, poseStack, x1, y1, color, buffer);
 
@@ -163,7 +160,7 @@ public class DamageParticle extends Particle {
         // Dark outline
         int darkColor = darken(color, 0.75d);
         float[][] offsets = {
-                { 1, 0 }, {-1, 0}, {0, 1}, {0, -1}
+                {1, 0}, {-1, 0}, {0, 1}, {0, -1}
         };
 
         poseStack.translate(0, 0, 0.03);
@@ -174,14 +171,12 @@ public class DamageParticle extends Particle {
     }
 
 
-
     @Override
     public void tick() {
 
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-
 
 
         if (this.age++ >= this.lifetime) {
@@ -219,9 +214,9 @@ public class DamageParticle extends Particle {
         float speed = 0.56666f;
         float t = (float) ((Math.sin(this.age * speed) * 0.5f) + 0.5f);
 
-        int r = (int) (c1.getRed()   + (c2.getRed()   - c1.getRed())   * t);
+        int r = (int) (c1.getRed() + (c2.getRed() - c1.getRed()) * t);
         int g = (int) (c1.getGreen() + (c2.getGreen() - c1.getGreen()) * t);
-        int b = (int) (c1.getBlue()  + (c2.getBlue()  - c1.getBlue())  * t);
+        int b = (int) (c1.getBlue() + (c2.getBlue() - c1.getBlue()) * t);
 
         return new Color(r, g, b).getRGB();
     }
@@ -230,17 +225,17 @@ public class DamageParticle extends Particle {
         double factor = 1.0 - amount;
 
         int alpha = (colorInt >> 24) & 0xFF;
-        int red   = (colorInt >> 16) & 0xFF;
-        int green = (colorInt >> 8)  & 0xFF;
-        int blue  = colorInt & 0xFF;
+        int red = (colorInt >> 16) & 0xFF;
+        int green = (colorInt >> 8) & 0xFF;
+        int blue = colorInt & 0xFF;
 
-        red   = (int)(red * factor);
-        green = (int)(green * factor);
-        blue  = (int)(blue * factor);
+        red = (int) (red * factor);
+        green = (int) (green * factor);
+        blue = (int) (blue * factor);
 
-        red   = Math.max(0, Math.min(255, red));
+        red = Math.max(0, Math.min(255, red));
         green = Math.max(0, Math.min(255, green));
-        blue  = Math.max(0, Math.min(255, blue));
+        blue = Math.max(0, Math.min(255, blue));
 
         return (alpha << 24) | (red << 16) | (green << 8) | blue;
     }

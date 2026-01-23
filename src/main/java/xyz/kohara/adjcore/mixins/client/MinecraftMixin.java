@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.kohara.adjcore.ADJCore;
+import xyz.kohara.adjcore.ADJData;
 
 import java.util.List;
 import java.util.Random;
@@ -21,7 +21,7 @@ public class MinecraftMixin {
     private void overrideTitle(CallbackInfoReturnable<String> cir) {
         if (adj$title == null) {
 
-            List<String> titles = ADJCore.windowTitles;
+            List<String> titles = ADJData.windowTitles;
 
             String modpackName = titles.get(0);
             List<String> splashes = titles.subList(1, titles.size() - 1);

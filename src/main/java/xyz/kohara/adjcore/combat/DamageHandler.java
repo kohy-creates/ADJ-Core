@@ -28,8 +28,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -85,6 +87,14 @@ public class DamageHandler {
     public static void onLivingKnockback(LivingKnockBackEvent event) {
         LivingEntity entity = event.getEntity();
 
+        if (!event.isCanceled()) {
+            if (entity.swinging) {
+                entity.swinging = false;
+                event.setCanceled(true);
+                return;
+            }
+        }
+
         int cooldown = entity.adjcore$getKnockbackCooldown();
         if (cooldown > 0) {
             float s = event.getStrength();
@@ -137,6 +147,26 @@ public class DamageHandler {
 
         INVUL_TIME = finalIFrames;
         setInvulTime(entity, INVUL_TIME);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onPlayerAttack(AttackEntityEvent event) {
+        if (!event.isCanceled()) {
+            Player player = event.getEntity();
+            if (player.level().isClientSide() || player instanceof FakePlayer) {
+                return;
+            }
+
+            float str = player.getAttackStrengthScale(0);
+            if (str <= 0.99f) {
+                Entity target = event.getTarget();
+                // Don't worry, it's only magic
+                if (target instanceof LivingEntity) {
+                    ((LivingEntity) target).swinging = true;
+                }
+                event.setCanceled(true);
+            }
+        }
     }
 
     private static float getAttributeValue(LivingEntity entity, Attribute attribute) {

@@ -7,15 +7,15 @@ import xyz.kohara.adjcore.registry.ADJAttributes;
 
 public class AttributeFunctions {
 
-    @SubscribeEvent
-    public static void onLivingHeal(LivingHealEvent event) {
-        AttributeInstance healingReduction = event.getEntity().getAttribute(ADJAttributes.HEALING_REDUCTION.get());
-        if (healingReduction != null) {
-            var value = healingReduction.getValue();
-            var amount = event.getAmount();
-            event.setAmount(
-                    (float) (amount + (amount * value))
-            );
-        }
-    }
+//    @SubscribeEvent
+//    public static void onLivingHeal(LivingHealEvent event) {
+//        AttributeInstance healingReduction = event.getEntity().getAttribute(ADJAttributes.HEALING_REDUCTION.get());
+//        if (healingReduction != null) {
+//            var value = healingReduction.getValue();
+//            var amount = event.getAmount();
+//            event.setAmount(
+//                    (float) (amount + (amount * value))
+//            );
+//        }
+//    }
 }

@@ -53,11 +53,12 @@ public class ADJAttributes {
             "Extra health regeneration in points per second. This is ticked separately outside of natural health regeneration."
     );
 
-    public static final RegistryObject<Attribute> HEALING_REDUCTION = register(
-            new PercentBasedAttribute(id("generic", "healing_reduction"), 0.0, -1, 0.0).setSyncable(true),
-            "Reduced Healing",
-            "Incoming healing will be reduced by this value."
-    );
+//    Provided by AttributesLib
+//    public static final RegistryObject<Attribute> HEALING_REDUCTION = register(
+//            new PercentBasedAttribute(id("generic", "healing_reduction"), 0.0, -1, 0.0).setSyncable(true),
+//            "Reduced Healing",
+//            "Incoming healing will be reduced by this value."
+//    );
 
     private static RegistryObject<Attribute> register(Attribute attribute, String name, String description) {
         String descriptionID = attribute.getDescriptionId();
@@ -71,7 +72,7 @@ public class ADJAttributes {
             event.add(type, ADJAttributes.PROJECTILE_DAMAGE_REDUCTION.get());
             event.add(type, ADJAttributes.SAFE_FALL_DISTANCE.get());
             event.add(type, ADJAttributes.HEALTH_REGEN.get());
-            event.add(type, ADJAttributes.HEALING_REDUCTION.get());
+//            event.add(type, ADJAttributes.HEALING_REDUCTION.get());
         }
 
         event.add(EntityType.PLAYER, ADJAttributes.MANA_COST_REDUCTION.get());

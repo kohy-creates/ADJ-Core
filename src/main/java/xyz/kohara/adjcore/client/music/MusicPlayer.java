@@ -19,7 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.client.networking.ADJMessages;
 import xyz.kohara.adjcore.client.networking.packet.RequestEntityTagsC2SPacket;
-import xyz.kohara.adjcore.mixins.music.MusicManagerAccessor;
+import xyz.kohara.adjcore.mixins.client.music.MusicManagerAccessor;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;

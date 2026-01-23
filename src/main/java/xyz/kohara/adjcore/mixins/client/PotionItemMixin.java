@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
 import xyz.kohara.adjcore.ADJCore;
+import xyz.kohara.adjcore.ADJData;
 
 @Mixin(PotionItem.class)
 public class PotionItemMixin extends Item {
@@ -46,8 +47,8 @@ public class PotionItemMixin extends Item {
 
         if (split.length >= 2) {
             String key = split[1];
-            if (ADJCore.potionNameOverrides.containsKey(key)) {
-                newName.append(ADJCore.potionNameOverrides.get(key));
+            if (ADJData.potionNameOverrides.containsKey(key)) {
+                newName.append(ADJData.potionNameOverrides.get(key));
             } else {
                 newName.append(split[1])
                         .append(" ")
@@ -55,7 +56,7 @@ public class PotionItemMixin extends Item {
             }
         } else if (split.length == 1) {
             String key = split[0];
-            newName.append(ADJCore.potionNameOverrides.getOrDefault(key, key));
+            newName.append(ADJData.potionNameOverrides.getOrDefault(key, key));
         }
 
         if (type != null) {

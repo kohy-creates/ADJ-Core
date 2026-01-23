@@ -15,13 +15,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
 import xyz.kohara.adjcore.ADJCore;
+import xyz.kohara.adjcore.ADJData;
 
 import java.util.*;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ADJCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SpecialInfoTooltips {
 
-    private static final Set<Item> MATERIAL_ITEMS = new HashSet<>();
+    private static final Set<Item> MATERIAL_ITEMS = new LinkedHashSet<>();
 
     private static void createIngredientCache() {
         if (MATERIAL_ITEMS.isEmpty()) {
@@ -73,8 +74,8 @@ public class SpecialInfoTooltips {
         }
 
         // Overrides for defaults
-        for (String defaultTrait : SpecialInfoOverrides.defaultTraits) {
-            SpecialInfoOverrides.OverrideEntry oE = SpecialInfoOverrides.getDefaultOverrideFor(item, defaultTrait);
+        for (String defaultTrait : ADJData.TooltipInfoOverrides.defaultTraits) {
+            ADJData.TooltipInfoOverrides.OverrideEntry oE = ADJData.TooltipInfoOverrides.getDefaultOverrideFor(item, defaultTrait);
 
             if (oE == null) continue;
 
@@ -86,10 +87,10 @@ public class SpecialInfoTooltips {
         }
 
         // Custom overrides
-        SpecialInfoOverrides.OverrideEntry oE = SpecialInfoOverrides.getCustomOverrideFor(item);
+        ADJData.TooltipInfoOverrides.OverrideEntry oE = ADJData.TooltipInfoOverrides.getCustomOverrideFor(item);
         if (oE != null) {
-            if (oE.getNames() != null) {
-                traits.addAll(oE.getNames());
+            if (oE.names() != null) {
+                traits.addAll(oE.names());
             }
         }
 
@@ -121,6 +122,8 @@ public class SpecialInfoTooltips {
                     count = 0;
                 }
             }
+
+            if (event.getToolTip().isEmpty()) return;
 
             for (int i = lines.size() - 1; i >= 0; i--) {
                 event.getToolTip().add(1, lines.get(i));

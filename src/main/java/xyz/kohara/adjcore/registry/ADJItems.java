@@ -28,6 +28,18 @@ public class ADJItems {
             )
     );
 
+    public static final RegistryObject<Item> MANA_STAR = register(
+            "mana_star",
+            "Mana Star",
+            () -> new Item(new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> HEART = register(
+            "heart",
+            "heart",
+            () -> new Item(new Item.Properties())
+    );
+
     private static RegistryObject<Item> register(String id, String name, Supplier<Item> factory) {
         LangGenerator.addItemTranslation(id, name);
         return ITEMS.register(id, factory);

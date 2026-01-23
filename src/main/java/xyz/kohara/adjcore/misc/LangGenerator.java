@@ -1,5 +1,6 @@
 package xyz.kohara.adjcore.misc;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -13,7 +14,7 @@ public class LangGenerator {
 
     private static final Map<String, String> LOCALS = new HashMap<>();
 
-    private static String constructId(String category, String name) {
+    public static String constructId(String category, String name) {
         return category + "." + ADJCore.MOD_ID + "." + name;
     }
 
@@ -39,8 +40,16 @@ public class LangGenerator {
         LOCALS.put(constructId("fluid_type", id), name);
     }
 
+    public static void addEntityTypeTranslation(String id, String name) {
+        LOCALS.put(constructId("entity", id), name);
+    }
+
     public static void addItemTranslation(String id, String name) {
-        LOCALS.put(constructId("item", id), name);
+        if (!id.contains(".")) {
+            LOCALS.put(constructId("item", id), name);
+        } else {
+            LOCALS.put(id, name);
+        }
     }
 
     public static void addBlockTranslation(String id, String name) {
