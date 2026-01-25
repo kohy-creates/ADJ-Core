@@ -18,19 +18,19 @@ public class ADJAttributes {
     private static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, ADJCore.MOD_ID);
 
     public static final RegistryObject<Attribute> DAMAGE_REDUCTION = register(
-            new PercentBasedAttribute(id("generic", "damage_reduction"), 0.0, -1.0, 1.0).setSyncable(true),
+            new PercentBasedAttribute(id("generic", "damage_reduction"), 0.0, -2048.0, 1.0).setSyncable(true),
             "Damage Reduction",
-            "Reduces incoming damage. Stacks with other forms of damage reduction."
+            "Reduces incoming damage. Stacks with other forms of damage reduction. Negative values will increase incoming damage!"
     );
 
     public static final RegistryObject<Attribute> PROJECTILE_DAMAGE_REDUCTION = register(
-            new PercentBasedAttribute(id("generic", "projectile_damage_reduction"), 0.0, 0.0, 1.0).setSyncable(true),
+            new PercentBasedAttribute(id("generic", "projectile_damage_reduction"), 0.0, -2048.0, 1.0).setSyncable(true),
             "Projectile Damage Reduction",
-            "Reduces incoming damage from projectiles. Stacks with other forms of damage reduction."
+            "Reduces incoming damage from projectiles. Stacks with other forms of damage reduction. Negative values will increase incoming damage!"
     );
 
     public static final RegistryObject<Attribute> MANA_COST_REDUCTION = register(
-            new PercentBasedAttribute(id("player", "mana_cost_reduction"), 0.0, -1.0, 1.0).setSyncable(true),
+            new PercentBasedAttribute(id("player", "mana_cost_reduction"), 0.0, -2048.0, 1.0).setSyncable(true),
             "Mana Cost Reduction",
             "Reduces casting cost of spells."
     );
@@ -39,6 +39,12 @@ public class ADJAttributes {
             new RangedAttribute(id("generic", "safe_fall_distance"), 0.0, 0.0, 2048.0).setSyncable(true),
             "Safe Fall Distance",
             "Distance you can fall before fall damage starts accumulating."
+    );
+
+    public static final RegistryObject<Attribute> FALL_DAMAGE_REDUCTION = register(
+            new PercentBasedAttribute(id("generic", "fall_damage_reduction"), 0.0, -2048.0, 1.0).setSyncable(true),
+            "Fall Damage Reduction",
+            "Reduces incoming fall damage. Stacks with other forms of damage reduction. Negative values will increase it instead!"
     );
 
     public static final RegistryObject<Attribute> EXTRA_ORE_DROPS = register(
@@ -53,13 +59,6 @@ public class ADJAttributes {
             "Extra health regeneration in points per second. This is ticked separately outside of natural health regeneration."
     );
 
-//    Provided by AttributesLib
-//    public static final RegistryObject<Attribute> HEALING_REDUCTION = register(
-//            new PercentBasedAttribute(id("generic", "healing_reduction"), 0.0, -1, 0.0).setSyncable(true),
-//            "Reduced Healing",
-//            "Incoming healing will be reduced by this value."
-//    );
-
     private static RegistryObject<Attribute> register(Attribute attribute, String name, String description) {
         String descriptionID = attribute.getDescriptionId();
         LangGenerator.addAttributeTranslation(descriptionID, name, description);
@@ -72,7 +71,7 @@ public class ADJAttributes {
             event.add(type, ADJAttributes.PROJECTILE_DAMAGE_REDUCTION.get());
             event.add(type, ADJAttributes.SAFE_FALL_DISTANCE.get());
             event.add(type, ADJAttributes.HEALTH_REGEN.get());
-//            event.add(type, ADJAttributes.HEALING_REDUCTION.get());
+            event.add(type, ADJAttributes.FALL_DAMAGE_REDUCTION.get());
         }
 
         event.add(EntityType.PLAYER, ADJAttributes.MANA_COST_REDUCTION.get());

@@ -12,6 +12,7 @@ import org.confluence.terra_curio.effect.ModEffects;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.misc.LangGenerator;
 import xyz.kohara.adjcore.registry.effects.CozyCampfireEffect;
+import xyz.kohara.adjcore.registry.effects.HeartLanternEffect;
 import xyz.kohara.adjcore.registry.effects.InstantManaEffect;
 import xyz.kohara.adjcore.registry.effects.LesserInstantHealthEffect;
 
@@ -42,6 +43,13 @@ public class ADJEffects {
             new InstantManaEffect(),
             "Instant Mana",
             "Instantly replenishes some mana"
+    );
+
+    public static final RegistryObject<MobEffect> HEART_LANTERN = register(
+            "heart_lantern",
+            new HeartLanternEffect(),
+            "Heart Lantern",
+            "Life regeneration increased"
     );
 
     private static RegistryObject<MobEffect> register(String id, MobEffect effect, String name, String description) {

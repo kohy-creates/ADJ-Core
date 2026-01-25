@@ -1,9 +1,5 @@
 package xyz.kohara.adjcore;
 
-import com.hollingsworth.arsnouveau.common.entity.EntitySpellArrow;
-import com.hollingsworth.arsnouveau.common.items.ItemScroll;
-import com.hollingsworth.arsnouveau.common.items.SpellArrow;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -11,7 +7,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -29,7 +24,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import xyz.kohara.adjcore.attributes.AttributeFunctions;
 import xyz.kohara.adjcore.combat.ExtraLivingDrops;
 import xyz.kohara.adjcore.compat.ArsSpellPowerEdit;
 import xyz.kohara.adjcore.entity.HardcoreTweaks;
@@ -80,7 +74,6 @@ public class ADJCore {
         FORGE_BUS.register(CapabilityEvents.class);
         FORGE_BUS.register(ParticleTextIndicators.class);
         FORGE_BUS.register(HardcoreTweaks.class);
-        FORGE_BUS.register(AttributeFunctions.class);
         FORGE_BUS.register(ArsSpellPowerEdit.class);
         FORGE_BUS.register(ExtraLivingDrops.class);
 

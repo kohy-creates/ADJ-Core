@@ -23,7 +23,7 @@ public class CozyCampfire {
         return (state.getBlock() instanceof CampfireBlock && state.getValue(BlockStateProperties.SIGNAL_FIRE));
     }
 
-    private static boolean isPassiveMob(Entity entity) {
+    public static boolean isPassiveMob(Entity entity) {
         return !(entity.getType().getCategory() == MobCategory.MONSTER);
     }
 
