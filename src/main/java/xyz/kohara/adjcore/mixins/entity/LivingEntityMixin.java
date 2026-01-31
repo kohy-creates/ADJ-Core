@@ -107,15 +107,6 @@ public abstract class LivingEntityMixin extends Entity implements KnockbackCoold
         if (adjcore$healTime > 0) {
             adjcore$healTime--;
         }
-        LivingEntity entity = (LivingEntity) (Object) this;
-        float regenAmount = adj$calculateExtraRegenAmount(entity);
-        if (regenAmount > 0
-                && entity.getHealth() != entity.getMaxHealth()) {
-            entity.heal(regenAmount);
-        }
-        else if (regenAmount < 0) {
-            entity.setHealth(entity.getHealth() - regenAmount);
-        }
     }
 
     @Unique
@@ -125,44 +116,5 @@ public abstract class LivingEntityMixin extends Entity implements KnockbackCoold
             return (float) (instance.getValue() / 20f);
         }
         return 0;
-    }
-
-    @Inject(
-            method = "checkFallDamage",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/Entity;checkFallDamage(DZLnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)V",
-                    shift = At.Shift.BEFORE
-            )
-    )
-    private void modifyFallDamage(double y, boolean onGround, BlockState state, BlockPos pos, CallbackInfo ci) {
-
-        LivingEntity self = (LivingEntity) (Object) this;
-
-        if (!onGround) return;
-
-        double safeFall = 0;
-        if (self.getAttributes().hasAttribute(ADJAttributes.SAFE_FALL_DISTANCE.get())) {
-            safeFall = self.getAttributeValue(ADJAttributes.SAFE_FALL_DISTANCE.get());
-        }
-
-        float adjustedFall = (float) (this.fallDistance - safeFall);
-
-        if (adjustedFall < 5) {
-            this.fallDistance = 0;
-            return;
-        }
-
-        float blocksFallen = adjustedFall - 5;
-        float damageAmount = blocksFallen * 10.0f;
-
-        if (damageAmount > 0) {
-            if (!(self instanceof Player)) {
-                damageAmount /= 3;
-            }
-            self.hurt(self.damageSources().fall(), damageAmount);
-        }
-
-        this.fallDistance = 0;
     }
 }

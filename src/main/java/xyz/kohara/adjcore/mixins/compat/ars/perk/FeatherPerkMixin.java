@@ -16,7 +16,7 @@ import xyz.kohara.adjcore.registry.ADJAttributes;
 
 import java.util.UUID;
 
-@Mixin(FeatherPerk.class)
+@Mixin(value = FeatherPerk.class, remap = false)
 public class FeatherPerkMixin extends Perk {
 
 	@Shadow

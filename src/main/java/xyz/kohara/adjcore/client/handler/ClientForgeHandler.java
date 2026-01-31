@@ -1,12 +1,7 @@
 package xyz.kohara.adjcore.client.handler;
 
-import dev.architectury.platform.forge.EventBuses;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,10 +9,6 @@ import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.client.Keybindings;
 import xyz.kohara.adjcore.client.networking.ADJMessages;
 import xyz.kohara.adjcore.client.networking.packet.ChangeLoadOutC2SPacket;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = ADJCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeHandler {
@@ -40,6 +31,4 @@ public class ClientForgeHandler {
             client.options.hideGui = !client.options.hideGui;
         }
     }
-
-
 }

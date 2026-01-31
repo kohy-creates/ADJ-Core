@@ -13,7 +13,7 @@ import xyz.kohara.adjcore.registry.ADJEffects;
 
 import static xyz.kohara.adjcore.campfire.CozyCampfire.isPassiveMob;
 
-@Mixin(HeartLanternBlockEntity.class)
+@Mixin(value = HeartLanternBlockEntity.class, remap = false)
 public class HeartLanternMixin {
 
 	/**

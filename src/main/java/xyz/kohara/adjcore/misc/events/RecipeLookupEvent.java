@@ -7,6 +7,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+import org.apache.logging.log4j.core.jmx.Server;
 import xyz.kohara.adjcore.compat.kubejs.ServerEvents;
 import xyz.kohara.adjcore.compat.kubejs.serverevents.RecipeLookupEventJS;
 
@@ -29,10 +30,12 @@ public class RecipeLookupEvent extends Event {
         this.level = level;
         this.recipe = recipe;
 
-        var result = ServerEvents.RECIPE_LOOKUP.post(new RecipeLookupEventJS(this));
+        if (ServerEvents.RECIPE_LOOKUP.hasListeners()) {
+            var result = ServerEvents.RECIPE_LOOKUP.post(new RecipeLookupEventJS(this));
 
-        if (result.interruptFalse()) {
-            this.setCanceled(true);
+            if (result.interruptFalse()) {
+                this.setCanceled(true);
+            }
         }
     }
 

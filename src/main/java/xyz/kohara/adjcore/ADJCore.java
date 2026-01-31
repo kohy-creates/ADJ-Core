@@ -24,25 +24,26 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import xyz.kohara.adjcore.combat.ExtraLivingDrops;
-import xyz.kohara.adjcore.compat.ArsSpellPowerEdit;
-import xyz.kohara.adjcore.entity.HardcoreTweaks;
-import xyz.kohara.adjcore.registry.*;
 import xyz.kohara.adjcore.client.music.JukeboxTracker;
 import xyz.kohara.adjcore.client.music.MusicConfig;
 import xyz.kohara.adjcore.client.networking.ADJMessages;
 import xyz.kohara.adjcore.combat.DamageHandler;
-import xyz.kohara.adjcore.misc.ParticleTextIndicators;
+import xyz.kohara.adjcore.combat.ExtraLivingDrops;
+import xyz.kohara.adjcore.compat.ArsSpellPowerEdit;
 import xyz.kohara.adjcore.compat.curios.CurioControl;
 import xyz.kohara.adjcore.effecteditor.EffectsEditor;
+import xyz.kohara.adjcore.entity.HardcoreTweaks;
 import xyz.kohara.adjcore.entity.WanderingTraderEdits;
 import xyz.kohara.adjcore.misc.DelayedTaskScheduler;
 import xyz.kohara.adjcore.misc.LangGenerator;
-import xyz.kohara.adjcore.registry.capabilities.CapabilityEvents;
+import xyz.kohara.adjcore.misc.ParticleTextIndicators;
 import xyz.kohara.adjcore.misc.credits.LoaderInfo;
 import xyz.kohara.adjcore.misc.credits.ModCreditsBase;
 import xyz.kohara.adjcore.misc.credits.ModInfo;
 import xyz.kohara.adjcore.potions.PotionsEditor;
+import xyz.kohara.adjcore.registry.*;
+import xyz.kohara.adjcore.registry.capabilities.CapabilityEvents;
+import xyz.kohara.adjcore.registry.effects.EffectsHandler;
 
 import java.util.*;
 
@@ -76,6 +77,7 @@ public class ADJCore {
         FORGE_BUS.register(HardcoreTweaks.class);
         FORGE_BUS.register(ArsSpellPowerEdit.class);
         FORGE_BUS.register(ExtraLivingDrops.class);
+        FORGE_BUS.register(EffectsHandler.class);
 
         JukeboxTracker.init();
 
@@ -85,9 +87,9 @@ public class ADJCore {
 
     private void initRegistries(IEventBus bus) {
         ADJBiomeModifiers.register(bus);
+        ADJAttributes.register(bus);
         ADJEffects.register(bus);
         ADJSoundEvents.SOUND_EVENTS.register(bus);
-        ADJAttributes.register(bus);
         MusicConfig.load(bus);
         ADJPlacementModifierTypes.register(bus);
         ADJParticles.register(bus);

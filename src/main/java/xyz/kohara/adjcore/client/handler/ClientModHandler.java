@@ -6,6 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.RenderNameTagEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
@@ -38,7 +39,7 @@ public class ClientModHandler {
 
     @SuppressWarnings("unchecked")
     @SubscribeEvent
-    public static void event(EntityRenderersEvent.RegisterRenderers event) {
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         ADJEntities.COLLECTIBLES.forEach(obj -> {
                     var entry = (RegistryObject<EntityType<CollectibleEntity>>) obj;
                     event.registerEntityRenderer(entry.get(), CollectableItemRenderer::new);

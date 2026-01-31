@@ -3,6 +3,7 @@ package xyz.kohara.adjcore.misc.events;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.Event;
+import org.apache.logging.log4j.core.jmx.Server;
 import xyz.kohara.adjcore.compat.kubejs.ServerEvents;
 import xyz.kohara.adjcore.compat.kubejs.serverevents.ADJHurtEventJS;
 
@@ -33,7 +34,8 @@ public class ADJHurtEvent extends Event {
         this.chance = critChance;
         this.multiplier = critMultiplier;
 
-        ServerEvents.ADJ_HURT.post(new ADJHurtEventJS(this));
+        if (ServerEvents.ADJ_HURT.hasListeners())
+            ServerEvents.ADJ_HURT.post(new ADJHurtEventJS(this));
     }
 
     public boolean isCritical() {

@@ -3,21 +3,26 @@ package xyz.kohara.adjcore.mixins.client;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.CameraType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-
-// Adapted from:
-// https://github.com/ObscuriaLithium/healight/blob/master/common/src/main/java/dev/obscuria/healight/mixin/client/MixinLivingEntityRenderer.java
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntityRenderer.class)
 public class LivingEntityRendererMixin {
 
+    // Adapted from:
+// https://github.com/ObscuriaLithium/healight/blob/master/common/src/main/java/dev/obscuria/healight/mixin/client/MixinLivingEntityRenderer.java
     @WrapOperation(
             method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(
@@ -48,5 +53,17 @@ public class LivingEntityRendererMixin {
         }
 
         original.call(instance, pose, consumer, light, overlay, r, g, b, a);
+    }
+
+    @Inject(
+            method = "shouldShowName(Lnet/minecraft/world/entity/LivingEntity;)Z",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void viewOwnLabel(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (entity == minecraft.player) {
+            cir.setReturnValue(!minecraft.options.hideGui && minecraft.options.getCameraType() == CameraType.FIRST_PERSON);
+        }
     }
 }

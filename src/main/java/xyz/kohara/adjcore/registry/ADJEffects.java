@@ -11,10 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 import org.confluence.terra_curio.effect.ModEffects;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.misc.LangGenerator;
-import xyz.kohara.adjcore.registry.effects.CozyCampfireEffect;
-import xyz.kohara.adjcore.registry.effects.HeartLanternEffect;
-import xyz.kohara.adjcore.registry.effects.InstantManaEffect;
-import xyz.kohara.adjcore.registry.effects.LesserInstantHealthEffect;
+import xyz.kohara.adjcore.registry.effects.*;
 
 import java.util.function.Supplier;
 

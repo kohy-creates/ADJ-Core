@@ -2,13 +2,21 @@ package xyz.kohara.adjcore.registry.effects;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import org.jetbrains.annotations.NotNull;
 import xyz.kohara.adjcore.registry.ADJAttributes;
 
 public class HeartLanternEffect extends MobEffect {
 
 	public HeartLanternEffect() {
 		super(MobEffectCategory.BENEFICIAL, 16262179);
+	}
+
+	@Override
+	public void addAttributeModifiers(@NotNull LivingEntity entity, @NotNull AttributeMap attributeMap, int amplifier) {
 		this.addAttributeModifier(ADJAttributes.HEALTH_REGEN.get(), "0992a380-2aa0-40ec-8b1a-9777e564e86d", 1d, AttributeModifier.Operation.ADDITION);
+		super.addAttributeModifiers(entity, attributeMap, amplifier);
 	}
 }
