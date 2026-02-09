@@ -40,4 +40,11 @@ public class Keybindings {
             InputConstants.getKey(InputConstants.KEY_F8, -1),
             CATEGORY
     );
+
+    public final KeyMapping HUGE_ASS_SCREENSHOT = new KeyMapping(
+            ADJCore.MOD_ID + ".huge_screenshot",
+            KeyConflictContext.IN_GAME,
+            InputConstants.getKey(InputConstants.KEY_PAGEDOWN, -1),
+            CATEGORY
+    );
 }

@@ -27,6 +27,7 @@ public class ClientModHandler {
         event.register(Keybindings.INSTANCE.LOADOUT_2);
         event.register(Keybindings.INSTANCE.LOADOUT_3);
         event.register(Keybindings.INSTANCE.NEW_HIDE_GUI);
+        event.register(Keybindings.INSTANCE.HUGE_ASS_SCREENSHOT);
     }
 
     @SubscribeEvent

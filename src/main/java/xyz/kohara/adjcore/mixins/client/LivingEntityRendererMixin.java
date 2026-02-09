@@ -63,7 +63,7 @@ public class LivingEntityRendererMixin {
     private void viewOwnLabel(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         Minecraft minecraft = Minecraft.getInstance();
         if (entity == minecraft.player) {
-            cir.setReturnValue(!minecraft.options.hideGui && minecraft.options.getCameraType() == CameraType.FIRST_PERSON);
+            cir.setReturnValue(!minecraft.options.hideGui && minecraft.options.getCameraType() != CameraType.FIRST_PERSON);
         }
     }
 }

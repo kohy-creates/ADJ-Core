@@ -1,6 +1,8 @@
 package xyz.kohara.adjcore.client.handler;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.Screenshot;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,6 +31,16 @@ public class ClientForgeHandler {
         }
         if (Keybindings.INSTANCE.NEW_HIDE_GUI.consumeClick()) {
             client.options.hideGui = !client.options.hideGui;
+        }
+        if (Keybindings.INSTANCE.HUGE_ASS_SCREENSHOT.consumeClick()) {
+            var m = 5;
+            client.grabHugeScreenshot(
+                    client.gameDirectory,
+                    client.getMainRenderTarget().width,
+                    client.getMainRenderTarget().height,
+                    client.getMainRenderTarget().width * m,
+                    client.getMainRenderTarget().height * m
+            );
         }
     }
 }

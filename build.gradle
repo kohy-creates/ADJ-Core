@@ -179,6 +179,8 @@ dependencies {
     modImplementation("curse.maven:quark-243121:6427817")
     modImplementation("curse.maven:zeta-968868:7335229")
 
+    compileOnly("curse.maven:the-fnaf-plushie-mod-932407:5857666")
+
 //    compileOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE:api"
 //    runtimeOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE"
 //

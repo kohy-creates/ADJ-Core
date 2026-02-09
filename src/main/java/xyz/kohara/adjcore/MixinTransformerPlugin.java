@@ -27,9 +27,11 @@ public class MixinTransformerPlugin implements IMixinConfigPlugin {
             } else {
                 return FMLLoader.getLoadingModList().getModFileById("biggerstacks") == null;
             }
-        }
-        else if (mixinClassName.contains("Embeddium")) {
+        } else if (mixinClassName.contains("Embeddium")) {
             return FMLLoader.getLoadingModList().getModFileById("sodium") != null;
+        }
+        else if (mixinClassName.contains("fnafplushies")) {
+            return FMLLoader.getLoadingModList().getModFileById("fnaf_plushie_remastered") != null;
         }
         return true;
     }
