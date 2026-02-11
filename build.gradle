@@ -165,7 +165,7 @@ dependencies {
 
     compileOnly "curse.maven:bigger-stacks-564896:7423694"
 
-    //modImplementation "com.aetherteam.aether:aether:${project.aether_version}"
+//    modImplementation "com.aetherteam.aether:aether:${project.aether_version}"
 
     compileOnly "curse.maven:cyclops-core-232758:7210370"
 
@@ -181,10 +181,14 @@ dependencies {
 
     compileOnly("curse.maven:the-fnaf-plushie-mod-932407:5857666")
 
-//    compileOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE:api"
-//    runtimeOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE"
+//    compileOnly("curse.maven:jumbo-furnace-390880:4685578")
 //
-//    implementation "vazkii.botania:Botania:1.20.1-450-FORGE"
+//    compileOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE:api"
+//    compileOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE"
+//
+    compileOnly "vazkii.botania:Botania:1.20.1-450-FORGE"
+//    runtimeOnly("curse.maven:botania-225643:6870713")
+//    runtimeOnly("curse.maven:patchouli-306770:6164575")
 }
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']

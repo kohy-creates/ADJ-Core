@@ -11,25 +11,26 @@ import xyz.kohara.adjcore.registry.ADJItems;
 
 import java.util.List;
 
-public class Heart extends CollectibleEntity {
+public class ManaStarEntity extends CollectibleEntity {
 
-    public Heart(EntityType<? extends CollectibleEntity> entityType, Level level) {
+    public ManaStarEntity(EntityType<? extends ManaStarEntity> entityType, Level level) {
         super(entityType, level);
     }
 
-    public Heart(Level level, double x, double y, double z) {
-        super(ADJEntities.HEART.get(), level, x, y, z);
+    public ManaStarEntity(Level level, double x, double y, double z) {
+        super(ADJEntities.MANA_STAR.get(), level, x, y, z);
     }
+
 
     @Override
     public void pickupEffects(@NotNull Player player) {
-        player.heal(20);
+        player.adjcore$restoreMana(50);
         super.pickupEffects(player);
     }
 
     @Override
     public @NotNull Item displayItem() {
-        return ADJItems.HEART.get();
+        return ADJItems.MANA_STAR.get();
     }
 
     @Override

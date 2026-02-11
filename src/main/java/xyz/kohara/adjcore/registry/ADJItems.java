@@ -10,6 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.misc.LangGenerator;
+import xyz.kohara.adjcore.registry.items.TerraSlashTestItem;
 
 import java.util.function.Supplier;
 
@@ -36,8 +37,14 @@ public class ADJItems {
 
     public static final RegistryObject<Item> HEART = register(
             "heart",
-            "heart",
+            "Heart",
             () -> new Item(new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> TERRA_SLASH_TEST_ITEM = register(
+            "terra_slash_test_item",
+            "Terra Slash Test Item",
+            () -> new TerraSlashTestItem(new Item.Properties())
     );
 
     private static RegistryObject<Item> register(String id, String name, Supplier<Item> factory) {

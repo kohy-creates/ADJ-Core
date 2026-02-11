@@ -1,4 +1,4 @@
-package xyz.kohara.adjcore.client.entity;
+package xyz.kohara.adjcore.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -18,9 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import xyz.kohara.adjcore.registry.ADJItems;
 import xyz.kohara.adjcore.registry.entities.CollectibleEntity;
-import xyz.kohara.adjcore.registry.entities.ManaStar;
 
 @OnlyIn(Dist.CLIENT)
 public class CollectableItemRenderer extends EntityRenderer<CollectibleEntity> {
@@ -42,7 +40,6 @@ public class CollectableItemRenderer extends EntityRenderer<CollectibleEntity> {
         BakedModel bakedmodel = this.itemRenderer.getModel(itemstack, entity.level(), null, entity.getId());
         boolean flag = bakedmodel.isGui3d();
         int j = 1;
-        float f = 0.25F;
         float f1 = this.shouldBob() ? Mth.sin((entity.age + partialTicks) / 10.0F + entity.bobOffs) * 0.1F + 0.1F : 0.0F;
         float f2 = bakedmodel.getTransforms().getTransform(ItemDisplayContext.GROUND).scale.y();
         matrixStack.translate(0.0F, f1 + 0.25F * f2, 0.0F);

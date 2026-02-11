@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-public final class ADJData {
+public class ADJData {
 
     private static final String BASE_CONFIG = "config/" + ADJCore.MOD_ID + "/";
 

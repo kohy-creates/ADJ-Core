@@ -45,7 +45,7 @@ public class ADJEffects {
     public static final RegistryObject<MobEffect> HEART_LANTERN = register(
             "heart_lantern",
             new HeartLanternEffect(),
-            "Heart Lantern",
+            "HeartEntity Lantern",
             "Life regeneration increased"
     );
 

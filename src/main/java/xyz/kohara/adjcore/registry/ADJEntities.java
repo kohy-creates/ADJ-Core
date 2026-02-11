@@ -10,8 +10,9 @@ import net.minecraftforge.registries.RegistryObject;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.misc.LangGenerator;
 import xyz.kohara.adjcore.registry.entities.CollectibleEntity;
-import xyz.kohara.adjcore.registry.entities.Heart;
-import xyz.kohara.adjcore.registry.entities.ManaStar;
+import xyz.kohara.adjcore.registry.entities.HeartEntity;
+import xyz.kohara.adjcore.registry.entities.ManaStarEntity;
+import xyz.kohara.adjcore.registry.entities.TerraSlashEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +25,26 @@ public class ADJEntities {
     private static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ADJCore.MOD_ID);
 
-    public static final RegistryObject<EntityType<ManaStar>> MANA_STAR = registerCollectible(
+    public static final RegistryObject<EntityType<ManaStarEntity>> MANA_STAR = registerCollectible(
             "mana_star",
             "Mana Star",
-            ManaStar::new
+            ManaStarEntity::new
     );
 
-    public static final RegistryObject<EntityType<Heart>> HEART = registerCollectible(
+    public static final RegistryObject<EntityType<HeartEntity>> HEART = registerCollectible(
             "heart",
             "Heart",
-            Heart::new
+            HeartEntity::new
+    );
+
+    public static final RegistryObject<EntityType<TerraSlashEntity>> TERRA_SLASH = register(
+            "terra_slash",
+            "Terra Slash",
+            () -> EntityType.Builder.of(TerraSlashEntity::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(0.5f, 0.5f)
+                    .updateInterval(1)
+                    .build("terra_slash")
     );
 
     private static <T extends CollectibleEntity> RegistryObject<EntityType<T>> registerCollectible(String id, String name, EntityType.EntityFactory<T> factory) {

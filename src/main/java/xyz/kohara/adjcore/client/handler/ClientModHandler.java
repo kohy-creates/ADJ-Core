@@ -6,14 +6,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.client.event.RenderNameTagEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.client.Keybindings;
-import xyz.kohara.adjcore.client.entity.CollectableItemRenderer;
+import xyz.kohara.adjcore.client.renderer.entity.CollectableItemRenderer;
+import xyz.kohara.adjcore.client.renderer.entity.TerraSlashRenderer;
+import xyz.kohara.adjcore.client.particle.FlashingSparkParticle;
 import xyz.kohara.adjcore.client.particle.ShimmerParticle;
+import xyz.kohara.adjcore.client.particle.TerraShineParticle;
 import xyz.kohara.adjcore.registry.ADJEntities;
 import xyz.kohara.adjcore.registry.ADJParticles;
 import xyz.kohara.adjcore.registry.entities.CollectibleEntity;
@@ -36,6 +38,16 @@ public class ClientModHandler {
                 ADJParticles.SHIMMER.get(),
                 ShimmerParticle.ShimmerParticleFactory::new
         );
+
+        event.registerSpriteSet(
+                ADJParticles.TERRA_SHINE.get(),
+                TerraShineParticle.TerraShineParticleFactory::new
+        );
+
+        event.registerSpriteSet(
+                ADJParticles.FLASHING_SPARK.get(),
+                FlashingSparkParticle.FlashingSparkParticleFactory::new
+        );
     }
 
     @SuppressWarnings("unchecked")
@@ -46,5 +58,6 @@ public class ClientModHandler {
                     event.registerEntityRenderer(entry.get(), CollectableItemRenderer::new);
                 }
         );
+        event.registerEntityRenderer(ADJEntities.TERRA_SLASH.get(), TerraSlashRenderer::new);
     }
 }

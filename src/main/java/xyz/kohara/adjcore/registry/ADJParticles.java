@@ -14,6 +14,8 @@ public class ADJParticles {
 
     public static final RegistryObject<SimpleParticleType> DAMAGE_PARTICLE = PARTICLES.register("damage", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SHIMMER = PARTICLES.register("shimmer", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TERRA_SHINE = PARTICLES.register("terra_shine", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> FLASHING_SPARK = PARTICLES.register("flashing_spark", () -> new SimpleParticleType(false));
 
     public static void register(IEventBus eventBus) {
         PARTICLES.register(eventBus);

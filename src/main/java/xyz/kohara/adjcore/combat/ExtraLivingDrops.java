@@ -18,8 +18,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.ADJData;
-import xyz.kohara.adjcore.registry.entities.Heart;
-import xyz.kohara.adjcore.registry.entities.ManaStar;
+import xyz.kohara.adjcore.registry.entities.HeartEntity;
+import xyz.kohara.adjcore.registry.entities.ManaStarEntity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +71,7 @@ public class ExtraLivingDrops {
             int maxMana = ManaUtil.getMaxMana(player);
             if (currentMana != maxMana) {
                 if (random.nextFloat() <= (13f / 24f)) {
-                    level.addFreshEntity(new ManaStar(level, pos.x(), pos.y(), pos.z()));
+                    level.addFreshEntity(new ManaStarEntity(level, pos.x(), pos.y(), pos.z()));
                 }
             }
 
@@ -81,7 +81,7 @@ public class ExtraLivingDrops {
 
                 for (int i = 0; i < rule.getDropAmount(); i++) {
                     if (random.nextFloat() <= rule.getChance()) {
-                        level.addFreshEntity(new Heart(level, pos.x(), pos.y(), pos.z()));
+                        level.addFreshEntity(new HeartEntity(level, pos.x(), pos.y(), pos.z()));
                     }
                 }
 
@@ -90,7 +90,7 @@ public class ExtraLivingDrops {
                 float maxHP = player.getMaxHealth();
                 if (currentHP != maxHP) {
                     if (random.nextFloat() <= (1f / 12f)) {
-                        level.addFreshEntity(new Heart(level, pos.x(), pos.y(), pos.z()));
+                        level.addFreshEntity(new HeartEntity(level, pos.x(), pos.y(), pos.z()));
                     }
                 }
             }

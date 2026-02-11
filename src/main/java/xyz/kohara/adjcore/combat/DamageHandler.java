@@ -149,25 +149,25 @@ public class DamageHandler {
         setInvulTime(entity, INVUL_TIME);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onPlayerAttack(AttackEntityEvent event) {
-        if (!event.isCanceled()) {
-            Player player = event.getEntity();
-            if (player.level().isClientSide() || player instanceof FakePlayer) {
-                return;
-            }
-
-            float str = player.getAttackStrengthScale(0);
-            if (str <= 0.99f) {
-                Entity target = event.getTarget();
-                // Don't worry, it's only magic
-                if (target instanceof LivingEntity) {
-                    ((LivingEntity) target).swinging = true;
-                }
-                event.setCanceled(true);
-            }
-        }
-    }
+//    @SubscribeEvent(priority = EventPriority.LOWEST)
+//    public static void onPlayerAttack(AttackEntityEvent event) {
+//        if (!event.isCanceled()) {
+//            Player player = event.getEntity();
+//            if (player.level().isClientSide() || player instanceof FakePlayer) {
+//                return;
+//            }
+//
+//            float str = player.getAttackStrengthScale(0);
+//            if (str <= 0.99f) {
+//                Entity target = event.getTarget();
+//                // Don't worry, it's only magic
+//                if (target instanceof LivingEntity) {
+//                    ((LivingEntity) target).swinging = true;
+//                }
+//                event.setCanceled(true);
+//            }
+//        }
+//    }
 
     private static float getAttributeValue(LivingEntity entity, Attribute attribute) {
         AttributeInstance instance = entity.getAttribute(attribute);
@@ -244,20 +244,20 @@ public class DamageHandler {
             final int sharpness = weapon.getEnchantmentLevel(Enchantments.SHARPNESS);
             int isMagic = sharpness;
             if (sharpness > 0) {
-                finalAmount += finalAmount * (float) (sharpness * 0.1);
+                finalAmount += finalAmount * (float) (0.1 + (sharpness * 0.04));
             }
 
             if (victimEntity.getMobType() == MobType.UNDEAD) {
                 final int smite = weapon.getEnchantmentLevel(Enchantments.SMITE);
                 if (smite > 0) {
                     isMagic += smite;
-                    finalAmount += finalAmount * (float) (smite * 0.15);
+                    finalAmount += finalAmount * (float) (0.14 + (smite * 0.07));
                 }
             } else if (victimEntity.getMobType() == MobType.ARTHROPOD) {
                 final int bane = weapon.getEnchantmentLevel(Enchantments.BANE_OF_ARTHROPODS);
                 if (bane > 0) {
                     isMagic += bane;
-                    finalAmount += finalAmount * (float) (bane * 0.15);
+                    finalAmount += finalAmount * (float) (0.14 + (bane * 0.07));
                 }
             }
 

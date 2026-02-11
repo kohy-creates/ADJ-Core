@@ -18,20 +18,22 @@ public class MixinTransformerPlugin implements IMixinConfigPlugin {
         return null;
     }
 
+    private boolean isModLoaded(String modId) {
+        return FMLLoader.getLoadingModList().getModFileById(modId) != null;
+    }
+
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-
         if (mixinClassName.contains("client.GuiItemRenderingMixin")) {
             if (mixinClassName.contains("BiggerStacks")) {
-                return FMLLoader.getLoadingModList().getModFileById("biggerstacks") != null;
+                return isModLoaded("biggerstacks");
             } else {
-                return FMLLoader.getLoadingModList().getModFileById("biggerstacks") == null;
+                return !isModLoaded("biggerstacks");
             }
         } else if (mixinClassName.contains("Embeddium")) {
-            return FMLLoader.getLoadingModList().getModFileById("sodium") != null;
-        }
-        else if (mixinClassName.contains("fnafplushies")) {
-            return FMLLoader.getLoadingModList().getModFileById("fnaf_plushie_remastered") != null;
+            return isModLoaded("sodium");
+        } else if (mixinClassName.contains("fnafplushies")) {
+            return isModLoaded("fnaf_plushie_remastered");
         }
         return true;
     }
