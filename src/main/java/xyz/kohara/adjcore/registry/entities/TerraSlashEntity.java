@@ -1,6 +1,5 @@
 package xyz.kohara.adjcore.registry.entities;
 
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,7 +16,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3d;
 import xyz.kohara.adjcore.registry.ADJParticles;
 
 import java.util.ArrayList;
@@ -25,7 +23,9 @@ import java.util.List;
 
 public class TerraSlashEntity extends Projectile {
 
-    public static final float FADE_OUT_DURATION = 5f;
+    public static final float FADE_OUT_DURATION = 7f;
+    public static final int MAX_LIFETIME = 13;
+    public static final int TOTAL_LIFETIME = (int) (MAX_LIFETIME + FADE_OUT_DURATION + 1);
 
     private static final double HALF_WIDTH = 0.75;
     private static final double HALF_HEIGHT = 0.05;
@@ -74,7 +74,7 @@ public class TerraSlashEntity extends Projectile {
 
         Vec3 motion = getDeltaMovement();
 
-        if (motion.lengthSqr() > 1e-5 && !isFadingOut()) {
+        if (motion.lengthSqr() > 0) {
             float yaw = (float) (Mth.atan2(motion.x, motion.z) * Mth.RAD_TO_DEG);
             float pitch = (float) (Mth.atan2(motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z)) * Mth.RAD_TO_DEG);
 
@@ -85,7 +85,7 @@ public class TerraSlashEntity extends Projectile {
             this.xRotO = pitch;
         }
 
-        setDeltaMovement(motion.scale(0.915));
+        setDeltaMovement(motion.scale(0.88));
 
         if (!level().isClientSide()) {
             checkEntityCollisions();
@@ -100,15 +100,15 @@ public class TerraSlashEntity extends Projectile {
             ageOnFadeOut = tickCount;
         }
 
-        spawnParticles();
+        if (tickCount < 4) spawnParticles();
 
-        if (tickCount > 40 || (isFadingOut() && tickCount - ageOnFadeOut > FADE_OUT_DURATION)) {
+        if (tickCount > TOTAL_LIFETIME || (isFadingOut() && tickCount - ageOnFadeOut > FADE_OUT_DURATION)) {
             discard();
         }
     }
 
     public boolean isFadingOut() {
-        return forceFadeOut || tickCount > 30;
+        return forceFadeOut || tickCount > MAX_LIFETIME;
     }
 
     @Override
@@ -136,12 +136,12 @@ public class TerraSlashEntity extends Projectile {
 
     private void spawnParticles() {
         if (!(level() instanceof ServerLevel server)) return;
-        int particleCount = 2;
+        int particleCount = 7;
         for (int i = 0; i < particleCount; i++) {
             Vec3 local = new Vec3(
-                    (this.random.nextDouble() - 0.5) * 2 * HALF_WIDTH,
-                    (this.random.nextDouble() - 0.5) * 2 * HALF_HEIGHT,
-                    (this.random.nextDouble() - 0.5) * 2 * HALF_LENGTH
+                    (this.random.nextDouble() - 0.5) * 4 * HALF_WIDTH,
+                    (this.random.nextDouble() - 0.5) * 1 * HALF_HEIGHT,
+                    (this.random.nextDouble() - 0.5) * 4 * HALF_LENGTH
             );
             Vec3 pos = position().add(rotate(local));
             float yawRad = (float) Math.toRadians(yDisplay);
@@ -156,7 +156,7 @@ public class TerraSlashEntity extends Projectile {
                     pos.x, pos.y, pos.z,
                     0,
                     velocity.x, velocity.y, velocity.z,
-                    1.0
+                    7.5
             );
         }
     }
@@ -181,9 +181,9 @@ public class TerraSlashEntity extends Projectile {
         level.sendParticles(
                 ADJParticles.FLASHING_SPARK.get(),
                 position.x, position.y, position.z,
-                8,
+                6,
                 0, 0, 0,
-                0.75
+                0.8
         );
     }
 
@@ -198,4 +198,5 @@ public class TerraSlashEntity extends Projectile {
     public float getDamage() {
         return (float) (this.damage * Math.pow(0.75, this.pierceCount));
     }
+
 }

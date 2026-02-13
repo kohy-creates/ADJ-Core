@@ -6,8 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
-import vazkii.botania.common.item.equipment.tool.terrasteel.TerraBladeItem;
 import xyz.kohara.adjcore.registry.ADJEntities;
 import xyz.kohara.adjcore.registry.entities.TerraSlashEntity;
 
@@ -31,11 +29,9 @@ public class TerraSlashTestItem extends Item {
                     player.getZ() + player.getLookAngle().z
             );
 
-            System.out.println(player.getXRot());
-            System.out.println(player.getYRot());
-            slash.setDisplayAngles((float) player.getXRot(), (float) player.getYRot());
+            slash.setDisplayAngles(player.getXRot(), player.getYRot());
+            slash.setDeltaMovement(player.getLookAngle().scale(3d));
 
-            slash.setDeltaMovement(player.getLookAngle().scale(3));
             level.addFreshEntity(slash);
         }
 

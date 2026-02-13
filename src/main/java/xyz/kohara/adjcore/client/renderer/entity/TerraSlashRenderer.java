@@ -41,17 +41,21 @@ public class TerraSlashRenderer extends EntityRenderer<TerraSlashEntity> {
             }
         }
 
-        poseStack.translate(0f, 0.12f, 0f);
+        float spawnAlpha = entity.tickCount == 0 ? 0F : (entity.tickCount == 1 ? partialTicks : 1.0F);
+        spawnAlpha *= spawnAlpha;
+
+        float alpha = spawnAlpha * (1.0F - fadeProgress);
+        alpha *= alpha;
+
+
+        poseStack.translate(0f, -0.05f, 0f);
 
         float baseScale = 7.0F;
         float scale = baseScale * (1.0F - fadeProgress * 0.75f);
-        poseStack.scale(scale, 1.0F, scale);
+        poseStack.scale(scale, scale, scale);
 
         poseStack.mulPose(Axis.YP.rotationDegrees(-entity.yDisplay));
         poseStack.mulPose(Axis.XP.rotationDegrees(entity.xDisplay));
-
-        float alpha = 1.0F - fadeProgress;
-        alpha *= alpha;
 
         VertexConsumer consumer = buffer.getBuffer(
                 RenderType.entityTranslucentEmissive(getTextureLocation(entity))
@@ -67,7 +71,6 @@ public class TerraSlashRenderer extends EntityRenderer<TerraSlashEntity> {
         poseStack.popPose();
     }
 
-
     private static void drawQuad(
             PoseStack poseStack,
             VertexConsumer consumer,
@@ -80,39 +83,38 @@ public class TerraSlashRenderer extends EntityRenderer<TerraSlashEntity> {
 
         float half = size / 2f;
 
-        consumer.vertex(mat, -half, -half, 0)
+        consumer.vertex(mat, -half, 0, -half)
                 .color(255, 255, 255, (int) (alpha * 255))
                 .uv(0, 1)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(LightTexture.FULL_BRIGHT)
-                .normal(normal, 0, 0, 1)
+                .normal(normal, 0, 1, 0)
                 .endVertex();
 
-        consumer.vertex(mat, half, -half, 0)
+        consumer.vertex(mat, half, 0, -half)
                 .color(255, 255, 255, (int) (alpha * 255))
                 .uv(1, 1)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(LightTexture.FULL_BRIGHT)
-                .normal(normal, 0, 0, 1)
+                .normal(normal, 0, 1, 0)
                 .endVertex();
 
-        consumer.vertex(mat, half, half, 0)
+        consumer.vertex(mat, half, 0, half)
                 .color(255, 255, 255, (int) (alpha * 255))
                 .uv(1, 0)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(LightTexture.FULL_BRIGHT)
-                .normal(normal, 0, 0, 1)
+                .normal(normal, 0, 1, 0)
                 .endVertex();
 
-        consumer.vertex(mat, -half, half, 0)
+        consumer.vertex(mat, -half, 0, half)
                 .color(255, 255, 255, (int) (alpha * 255))
                 .uv(0, 0)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(LightTexture.FULL_BRIGHT)
-                .normal(normal, 0, 0, 1)
+                .normal(normal, 0, 1, 0)
                 .endVertex();
     }
-
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull TerraSlashEntity entity) {

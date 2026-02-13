@@ -36,7 +36,7 @@ public class TerraShineParticle extends TextureSheetParticle {
         this.spriteSet = spriteSet;
         this.setSize(0.2f, 0.2f);
         this.quadSize *= 0.8f;
-        this.lifetime = 30;
+        this.lifetime = 20;
         this.gravity = 0f;
         this.hasPhysics = false;
         this.xd = vx * 0.1;
