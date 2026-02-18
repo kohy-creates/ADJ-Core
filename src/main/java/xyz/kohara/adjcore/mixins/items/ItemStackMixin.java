@@ -47,13 +47,13 @@ public abstract class ItemStackMixin {
         }
     }
 
-    /**
-     * Doubles the durability of tools that have the Unbreaking enchantment
-     */
-    @Inject(method = "getMaxDamage", at = @At("RETURN"), cancellable = true)
-    public void getMaxDamage(CallbackInfoReturnable<Integer> cir) {
-        ItemStack stack = ((ItemStack) (Object) this);
-        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) != 0)
-            cir.setReturnValue((int) (cir.getReturnValue() * Config.UNBREAKNG_DURABILITY_MULTIPLIER.get()));
-    }
+//    /**
+//     * Doubles the durability of tools that have the Unbreaking enchantment
+//     */
+//    @Inject(method = "getMaxDamage", at = @At("RETURN"), cancellable = true)
+//    public void getMaxDamage(CallbackInfoReturnable<Integer> cir) {
+//        ItemStack stack = ((ItemStack) (Object) this);
+//        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) != 0)
+//            cir.setReturnValue((int) (cir.getReturnValue() * Config.UNBREAKNG_DURABILITY_MULTIPLIER.get()));
+//    }
 }

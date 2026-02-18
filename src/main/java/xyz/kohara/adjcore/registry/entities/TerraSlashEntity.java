@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
@@ -27,14 +28,13 @@ public class TerraSlashEntity extends Projectile {
     public static final int MAX_LIFETIME = 13;
     public static final int TOTAL_LIFETIME = (int) (MAX_LIFETIME + FADE_OUT_DURATION + 1);
 
-    private static final double HALF_WIDTH = 0.75;
-    private static final double HALF_HEIGHT = 0.05;
-    private static final double HALF_LENGTH = 1.5;
+    private static final double HALF_WIDTH = 2.5;
+    private static final double HALF_HEIGHT = 0.085;
+    private static final double HALF_LENGTH = 2.5;
 
     private final List<Entity> hitEntities = new ArrayList<>();
     private int pierceCount;
     private boolean forceFadeOut;
-    private final float damage;
     public int ageOnFadeOut = -1;
 
     private static final EntityDataAccessor<Float> DATA_X_DISPLAY =
@@ -47,7 +47,6 @@ public class TerraSlashEntity extends Projectile {
 
     public TerraSlashEntity(EntityType<? extends Projectile> type, Level level) {
         super(type, level);
-        this.damage = getBaseDamage();
     }
 
     @Override
@@ -74,15 +73,8 @@ public class TerraSlashEntity extends Projectile {
 
         Vec3 motion = getDeltaMovement();
 
-        if (motion.lengthSqr() > 0) {
-            float yaw = (float) (Mth.atan2(motion.x, motion.z) * Mth.RAD_TO_DEG);
-            float pitch = (float) (Mth.atan2(motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z)) * Mth.RAD_TO_DEG);
-
+        if (motion.lengthSqr() > 0 && !forceFadeOut) {
             setPos(getX() + motion.x, getY() + motion.y, getZ() + motion.z);
-            setYRot(yaw);
-            setXRot(pitch);
-            this.yRotO = yaw;
-            this.xRotO = pitch;
         }
 
         setDeltaMovement(motion.scale(0.88));
@@ -91,8 +83,7 @@ public class TerraSlashEntity extends Projectile {
             checkEntityCollisions();
         }
 
-        if (ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity).getType() == HitResult.Type.BLOCK
-                || Math.round(getDamage()) <= 1) {
+        if (ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity).getType() == HitResult.Type.BLOCK) {
             forceFadeOut = true;
         }
 
@@ -170,7 +161,7 @@ public class TerraSlashEntity extends Projectile {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, box, e -> e != owner)) {
             if (!target.level().isClientSide() && !this.hitEntities.contains(target)) {
                 this.hitEntities.add(target);
-                target.hurt(damageSources().mobProjectile(this, owner), getDamage());
+                target.hurt(damageSources().playerAttack((Player) owner), getDamage());
                 spawnHitBurst((ServerLevel) target.level(), new Vec3(target.getX(), target.getY() + 0.8d * target.getEyeHeight(), target.getZ()));
                 this.pierceCount++;
             }
@@ -192,11 +183,11 @@ public class TerraSlashEntity extends Projectile {
             var attr = owner.getAttribute(Attributes.ATTACK_DAMAGE);
             if (attr != null) return (float) attr.getValue() * 0.75f;
         }
-        return 10f;
+        return 5f;
     }
 
     public float getDamage() {
-        return (float) (this.damage * Math.pow(0.75, this.pierceCount));
+        return (float) (this.getBaseDamage() * Math.pow(0.75, this.pierceCount));
     }
 
 }

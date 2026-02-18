@@ -1,6 +1,13 @@
 {
+	"format_version": "1.21.11",
 	"parent": "item/generated",
 	"textures": {
 		"layer0": "adjcore:item/terra_slash"
+	},
+	"display": {
+		"head": {
+			"rotation": [90, 0, 0],
+			"scale": [1, 1, 0.6]
+		}
 	}
 }

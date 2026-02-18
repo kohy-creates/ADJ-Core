@@ -9,9 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class FlashingSparkParticle extends TextureSheetParticle {
-    public static FlashingSparkParticleFactory provider(SpriteSet spriteSet) {
-        return new FlashingSparkParticleFactory(spriteSet);
-    }
 
     public static class FlashingSparkParticleFactory implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
@@ -36,7 +33,7 @@ public class FlashingSparkParticle extends TextureSheetParticle {
         this.spriteSet = spriteSet;
         this.setSize(0.2f, 0.2f);
         this.quadSize *= 0.8f;
-        this.lifetime = 12;
+        this.lifetime = 8;
         this.gravity = 0.0f;
         this.hasPhysics = false;
         this.xd = vx * 0.1;

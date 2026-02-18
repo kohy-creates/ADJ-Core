@@ -41,6 +41,12 @@ public class ADJItems {
             () -> new Item(new Item.Properties())
     );
 
+    public static final RegistryObject<Item> TERRA_SLASH = register(
+            "terra_slash",
+            "Terra Slash",
+            () -> new Item(new Item.Properties())
+    );
+
     public static final RegistryObject<Item> TERRA_SLASH_TEST_ITEM = register(
             "terra_slash_test_item",
             "Terra Slash Test Item",

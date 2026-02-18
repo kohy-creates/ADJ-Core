@@ -63,6 +63,12 @@ public class TerraShineParticle extends TextureSheetParticle {
         this.oRoll = this.roll;
         this.roll += this.angularVelocity;
         this.angularVelocity += this.angularAcceleration;
-        if (!this.removed) this.setSprite(this.spriteSet.get((this.age / 3) % 10 + 1, 10));
+        if (!this.removed) {
+            int frameCount = 10;
+            int frame = (int) ((this.age / (float) this.lifetime) * frameCount);
+            frame = Math.min(frame, frameCount - 1);
+            this.setSprite(this.spriteSet.get(frame, frameCount));
+        }
+
     }
 }

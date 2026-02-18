@@ -181,16 +181,9 @@ dependencies {
 
     compileOnly("curse.maven:the-fnaf-plushie-mod-932407:5857666")
 
-//    compileOnly("curse.maven:jumbo-furnace-390880:4685578")
-//
-//    compileOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE:api"
-//    compileOnly "vazkii.patchouli:Patchouli:1.20.1-84.1-FORGE"
-//
     compileOnly "vazkii.botania:Botania:1.20.1-450-FORGE"
-//    runtimeOnly("curse.maven:botania-225643:6870713")
-//    runtimeOnly("curse.maven:patchouli-306770:6164575")
 
-    modImplementation("curse.maven:legendary-tabs-1172469:6586335")
+    compileOnly("curse.maven:legendary-tabs-1172469:6586335")
 }
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
