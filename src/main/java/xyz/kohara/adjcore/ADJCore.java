@@ -58,7 +58,6 @@ import xyz.kohara.adjcore.registry.effects.EffectsHandler;
 import xyz.kohara.adjcore.registry.items.WingsItem;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static com.hollingsworth.arsnouveau.client.jei.MultiInputCategory.rotatePointAbout;
 

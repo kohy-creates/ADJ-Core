@@ -14,4 +14,5 @@ public interface ServerEvents {
 	EventHandler ITEM_RARITY_GET_EVENT = GROUP.server("itemRarityGet", () -> ItemRarityGetEventJS.class);
 	EventHandler BOTANIA_MANA_CHANGE = GROUP.server("botaniaFlowerManaChange", () -> BotaniaFlowerManaChangeEventJS.class);
 	EventHandler ADJ_HEAL = GROUP.server("adjHeal", () -> ADJHealEventJS.class);
+	EventHandler ADJ_ARROW_HURT = GROUP.server("adjArrowHurt", () -> ADJArrowHurtEventJS.class);
 }

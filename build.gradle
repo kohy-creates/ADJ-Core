@@ -198,6 +198,9 @@ dependencies {
     compileOnly "curse.maven:sortilege-882488:7861531"
 
     modImplementation "curse.maven:tide-884685:8571673"
+
+    compileOnly "curse.maven:puzzles-lib-495476:6918565"
+    compileOnly "curse.maven:mutant-monsters-852665:7232503"
 }
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']

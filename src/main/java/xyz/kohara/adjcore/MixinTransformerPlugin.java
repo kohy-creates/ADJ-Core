@@ -54,6 +54,9 @@ public class MixinTransformerPlugin implements IMixinConfigPlugin {
         else if (mixinClassName.contains("DecursioStages")) {
             return isModLoaded("decursio_stages");
         }
+        else if (mixinClassName.contains("mutantmonsters")) {
+            return isModLoaded("mutantmonsters");
+        }
         return true;
     }
 
