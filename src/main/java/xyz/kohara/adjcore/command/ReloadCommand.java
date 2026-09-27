@@ -26,7 +26,6 @@ public class ReloadCommand {
                             DamageHandler.loadConfig();
                             DamageHandler.loadIFrameConfig();
                             ADJData.reloadEverythingReloadable();
-                            ADJData.TooltipInfoOverrides.reloadOverrides();
                             return 1;
                         })
         );

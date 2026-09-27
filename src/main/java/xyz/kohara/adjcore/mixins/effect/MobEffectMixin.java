@@ -1,6 +1,8 @@
 package xyz.kohara.adjcore.mixins.effect;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,6 +13,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.kohara.adjcore.ADJData;
+import xyz.kohara.adjcore.registry.ADJAttributes;
+import xyz.kohara.adjcore.registry.ADJEffects;
+import xyz.kohara.adjcore.registry.effects.PotionSicknessEffect;
 
 @Mixin(MobEffect.class)
 public abstract class MobEffectMixin {
@@ -59,29 +65,39 @@ public abstract class MobEffectMixin {
 		ci.cancel();
 		MobEffect effect = (MobEffect) (Object) this;
 
-		if ((effect != MobEffects.HEAL || livingEntity.isInvertedHealAndHarm()) &&
-				(effect != MobEffects.HARM || !livingEntity.isInvertedHealAndHarm())) {
-
-			// Case: effect is HARM (normal) OR HEAL (inverted) -> DAMAGE
-			if ((effect == MobEffects.HARM && !livingEntity.isInvertedHealAndHarm()) ||
-					(effect == MobEffects.HEAL && livingEntity.isInvertedHealAndHarm())) {
-
-				int damage = 30 + 20 * amplifier;
-
+		if ((effect != MobEffects.HEAL || livingEntity.isInvertedHealAndHarm()) && (effect != MobEffects.HARM || !livingEntity.isInvertedHealAndHarm())) {
+			if ((effect == MobEffects.HARM && !livingEntity.isInvertedHealAndHarm()) || (effect == MobEffects.HEAL && livingEntity.isInvertedHealAndHarm())) {
+				int damageAmount = 30 + 20 * amplifier;
 				if (source == null) {
-					livingEntity.hurt(livingEntity.damageSources().magic(), damage);
+					livingEntity.hurt(livingEntity.damageSources().magic(), damageAmount);
 				} else {
-					livingEntity.hurt(livingEntity.damageSources().indirectMagic(source, indirectSource), damage);
+					livingEntity.hurt(livingEntity.damageSources().indirectMagic(source, indirectSource), damageAmount);
 				}
-
 			} else {
 				this.applyEffectTick(livingEntity, amplifier);
 			}
-
 		} else {
-			// Case: effect is HEAL (normal) OR HARM (inverted) -> HEAL
-			int heal = 50 * (amplifier + 1);
-			livingEntity.adjcore$heal(heal, null, "healingPotion", true, false);
+			if (livingEntity instanceof Player player && PotionSicknessEffect.isHealingEffect(effect)) {
+				if (player.hasEffect(ADJEffects.POTION_SICKNESS.get())) {
+					return;
+				} else {
+					double cooldownReduction = 1d - player.getAttributeValue(ADJAttributes.POTION_SICKNESS_REDUCTION.get());
+					player.addEffect(
+							new MobEffectInstance(
+									ADJEffects.POTION_SICKNESS.get(),
+									(int) (20d * 60d * cooldownReduction),
+									0
+							)
+					);
+				}
+			}
+			int healAmount = 50 * (amplifier + 1);
+			livingEntity.adjcore$heal(
+					healAmount,
+					(indirectSource instanceof LivingEntity le) ? le : null,
+					"healingPotion",
+					true, false
+			);
 		}
 	}
 

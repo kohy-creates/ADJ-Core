@@ -55,6 +55,7 @@ import xyz.kohara.adjcore.potions.PotionsEditor;
 import xyz.kohara.adjcore.registry.*;
 import xyz.kohara.adjcore.registry.capabilities.CapabilityEvents;
 import xyz.kohara.adjcore.registry.effects.EffectsHandler;
+import xyz.kohara.adjcore.registry.effects.PotionSicknessEffect;
 import xyz.kohara.adjcore.registry.items.WingsItem;
 
 import java.util.*;
@@ -100,6 +101,7 @@ public class ADJCore {
 		FORGE_BUS.register(ExtraLivingDrops.class);
 		FORGE_BUS.register(EffectsHandler.class);
 		FORGE_BUS.register(WingsItem.class);
+		FORGE_BUS.register(PotionSicknessEffect.class);
 
 		initRegistries(MOD_BUS);
 	}

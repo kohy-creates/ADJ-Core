@@ -57,6 +57,9 @@ public class MixinTransformerPlugin implements IMixinConfigPlugin {
         else if (mixinClassName.contains("mutantmonsters")) {
             return isModLoaded("mutantmonsters");
         }
+        else if (mixinClassName.contains("CushionBackport")) {
+            return isModLoaded("cushion_backport");
+        }
         return true;
     }
 

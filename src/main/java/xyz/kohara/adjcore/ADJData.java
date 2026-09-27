@@ -2,11 +2,8 @@ package xyz.kohara.adjcore;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nullable;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,15 +12,22 @@ import java.util.*;
 
 public class ADJData {
 
-	private static final String BASE_CONFIG = "config/" + ADJCore.MOD_ID + "/";
+	private static String path(String name) {
+		return path(name, "txt");
+	}
 
-	private static final String DEATH_TEXTS_FILE = BASE_CONFIG + "death_text.txt";
-	private static final String STRUCTURES_IGNORE_MIN_DISTANCE_FILE = BASE_CONFIG + "structures_ignore_min_distance.txt";
-	private static final String POTION_NAME_OVERRIDES_FILE = BASE_CONFIG + "potion_name_overrides.txt";
-	private static final String WINDOW_TITLES_FILE = BASE_CONFIG + "window_titles.txt";
-	private static final String ATTRIBUTES_TOOLTIP_ORDER_FILE = BASE_CONFIG + "attributes_tooltip_order.txt";
-	private static final String EXTRA_HEART_DROP_RULES = BASE_CONFIG + "extra_heart_drop_rules.txt";
-	private static final String CURIO_SLOTS_TO_KEEP = BASE_CONFIG + "curio_slots_to_keep.txt";
+	private static String path(String name, String ending) {
+		return "config/" + ADJCore.MOD_ID + "/" + name + "." + ending;
+	}
+
+	private static final String DEATH_TEXTS_FILE = path("death_text");
+	private static final String STRUCTURES_IGNORE_MIN_DISTANCE_FILE = path("structures_ignore_min_distance");
+	private static final String POTION_NAME_OVERRIDES_FILE = path("potion_name_overrides");
+	private static final String WINDOW_TITLES_FILE = path("window_titles");
+	private static final String ATTRIBUTES_TOOLTIP_ORDER_FILE = path("attributes_tooltip_order");
+	private static final String EXTRA_HEART_DROP_RULES = path("extra_heart_drop_rules");
+	private static final String CURIO_SLOTS_TO_KEEP = path("curio_slots_to_keep");
+	private static final String HEALING_EFFECTS = path("healing_effects");
 
 	private static final List<String> deathTexts = new ArrayList<>();
 	public static final List<String> structuresIgnoreMinDistance = new ArrayList<>();
@@ -32,6 +36,7 @@ public class ADJData {
 	public static final List<ResourceLocation> attributesTooltipOrder = new ArrayList<>();
 	public static final Map<ResourceLocation, HeartDropRule> heartDropRules = new HashMap<>();
 	public static final List<String> curioSlotsToKeep = new ArrayList<>();
+	public static final List<ResourceLocation> healingEffects = new ArrayList<>();
 
 	static {
 		reloadEverythingReloadable();
@@ -76,7 +81,10 @@ public class ADJData {
 
 		curioSlotsToKeep.addAll(readLines(CURIO_SLOTS_TO_KEEP));
 
-
+		readLines(HEALING_EFFECTS)
+				.stream()
+				.map(ResourceLocation::parse)
+				.forEach(healingEffects::add);
 	}
 
 	private static List<String> readLines(String path) {
@@ -135,163 +143,6 @@ public class ADJData {
 			// fallback alphabetical
 			return aId.toString().compareTo(bId.toString());
 		};
-	}
-
-	public static final class TooltipInfoOverrides {
-
-		private static final String FOLDER = BASE_CONFIG + "item_traits_overrides/";
-		private static final String DEFAULT_FOLDER = FOLDER + "default/";
-
-		public static final List<String> defaultTraits = List.of(
-				"consumable",
-				"can_be_placed",
-				"material",
-				"equipable"
-		);
-
-		private static final Map<String, Set<String>> DEFAULT_OVERRIDES = new HashMap<>();
-		private static final Map<String, Set<String>> CUSTOM_OVERRIDES = new HashMap<>();
-
-		static {
-			reloadOverrides();
-		}
-
-		public static void reloadOverrides() {
-			DEFAULT_OVERRIDES.clear();
-			CUSTOM_OVERRIDES.clear();
-
-			loadDefaultOverrides();
-			loadCustomOverrides();
-		}
-
-		private static void loadDefaultOverrides() {
-			for (String trait : defaultTraits) {
-				File file = new File(DEFAULT_FOLDER + trait + ".txt");
-				DEFAULT_OVERRIDES.put(trait, readFileAsSet(file));
-			}
-		}
-
-		private static void loadCustomOverrides() {
-			File folder = new File(FOLDER);
-			File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
-
-			if (files == null) return;
-
-			for (File file : files) {
-				List<String> lines = readFileAsList(file);
-				if (lines.isEmpty()) continue;
-
-				String name = lines.get(0);
-				Set<String> entries = new HashSet<>(lines.subList(1, lines.size()));
-				CUSTOM_OVERRIDES.put(name, entries);
-			}
-		}
-
-		private static Set<String> readFileAsSet(File file) {
-			return new HashSet<>(readFileAsList(file));
-		}
-
-		private static List<String> readFileAsList(File file) {
-			try {
-				file.getParentFile().mkdirs();
-				file.createNewFile();
-				return Files.readAllLines(file.toPath());
-			} catch (IOException e) {
-				throw new RuntimeException("Failed to read override file: " + file, e);
-			}
-		}
-
-		@Nullable
-		public static OverrideEntry getDefaultOverrideFor(Item item, String category) {
-			if (!defaultTraits.contains(category))
-				return null;
-
-			String id = ForgeRegistries.ITEMS.getKey(item).toString();
-			Set<String> entries = DEFAULT_OVERRIDES.get(category);
-
-			if (entries == null)
-				return null;
-
-			for (String entry : entries) {
-				if (matches(id, entry)) {
-					return new OverrideEntry(category, entry.startsWith("-"), null);
-				}
-			}
-
-			return null;
-		}
-
-		@Nullable
-		public static OverrideEntry getCustomOverrideFor(Item item) {
-			String id = ForgeRegistries.ITEMS.getKey(item).toString();
-
-			LinkedHashSet<String> finalTraits = new LinkedHashSet<>();
-
-			for (String trait : defaultTraits) {
-				OverrideEntry def = getDefaultOverrideFor(item, trait);
-
-				if (def != null && def.shouldRemove())
-					continue;
-
-				finalTraits.add(trait);
-			}
-			for (var entry : CUSTOM_OVERRIDES.entrySet()) {
-				String traitName = entry.getKey();
-
-				for (String rule : entry.getValue()) {
-					if (!matches(id, rule))
-						continue;
-
-					if (rule.startsWith("-")) {
-						finalTraits.remove(traitName);
-					} else {
-						finalTraits.add(traitName);
-					}
-
-					break;
-				}
-			}
-
-			LinkedHashSet<String> base = new LinkedHashSet<>();
-			for (String trait : defaultTraits) {
-				OverrideEntry def = getDefaultOverrideFor(item, trait);
-				if (def == null || !def.shouldRemove()) {
-					base.add(trait);
-				}
-			}
-
-			return finalTraits.equals(base) ? null : new OverrideEntry(id, null, finalTraits);
-
-		}
-
-
-		private static boolean matches(String id, String rule) {
-			if (rule.isBlank() || rule.startsWith("#")) {
-				return false;
-			}
-			boolean remove = rule.startsWith("-");
-			if (remove) {
-				rule = rule.substring(1);
-			}
-
-			if (rule.length() > 2 && rule.startsWith("\\") && rule.endsWith("\\")) {
-				String regex = rule.substring(1, rule.length() - 1);
-				return id.matches(regex);
-			}
-
-			return id.equals(rule);
-		}
-
-
-		public record OverrideEntry(
-				String entry,
-				@Nullable Boolean remove,
-				@Nullable Set<String> names
-		) {
-			public boolean shouldRemove() {
-				return Boolean.TRUE.equals(remove);
-			}
-		}
 	}
 
 	public static class HeartDropRule {

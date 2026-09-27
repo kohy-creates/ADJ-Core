@@ -55,13 +55,13 @@ public class ADJAttributes {
 	public static final RegistryObject<Attribute> EXTRA_ORE_DROPS = register(
 			new RangedAttribute(id("player", "extra_fortune_level"), 0.0, 0.0, 2048.0).setSyncable(true),
 			"Extra Ore Drops",
-			"Every points increases the odds to get extra drops from ores (similar to Fortune enchantment)."
+			"Every point increases the odds to get extra drops from ores (works the exact same way as the Fortune enchantment)."
 	);
 
 	public static final RegistryObject<Attribute> HEALTH_REGEN = register(
 			new RangedAttribute(id("generic", "health_regeneration"), 0.0, -100.0, 100.0).setSyncable(true),
 			"Health Regeneration",
-			"Extra health regeneration in points per second. This is ticked separately outside of natural health regeneration."
+			"Extra health regeneration in health per second. This is ticked separately outside of natural health regeneration."
 	);
 
 	public static final RegistryObject<Attribute> MUSIC_PITCH = register(
@@ -74,6 +74,12 @@ public class ADJAttributes {
 			new RangedAttribute(id("generic", "flight_time"), 0d, 0d, 2048d).setSyncable(true),
 			"Flight Time",
 			"Wing flight time in ticks"
+	);
+
+	public static final RegistryObject<Attribute> POTION_SICKNESS_REDUCTION = register(
+			new PercentBasedAttribute(id("player", "healing_potion_cooldown"), 0.0, -2048d, 1d).setSyncable(true),
+			"Healing Potion Cooldown Reduction",
+			"Reduces the cooldown of Healing Potions (here read: the duration of Potion Sickness after consumption)"
 	);
 
 	private static RegistryObject<Attribute> register(Attribute attribute, String name, String description) {
@@ -95,6 +101,7 @@ public class ADJAttributes {
 		event.add(EntityType.PLAYER, EXTRA_ORE_DROPS.get());
 		event.add(EntityType.PLAYER, MUSIC_PITCH.get());
 		event.add(EntityType.PLAYER, FLIGHT_TIME.get());
+		event.add(EntityType.PLAYER, POTION_SICKNESS_REDUCTION.get());
 	}
 
 	public static void onAttributeCreate(EntityAttributeCreationEvent event) {

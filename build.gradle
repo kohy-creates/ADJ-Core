@@ -201,6 +201,8 @@ dependencies {
 
     compileOnly "curse.maven:puzzles-lib-495476:6918565"
     compileOnly "curse.maven:mutant-monsters-852665:7232503"
+
+    modImplementation "curse.maven:cushion-backport-1601898:8423649"
 }
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
