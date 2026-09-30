@@ -31,75 +31,75 @@ import java.util.stream.Collectors;
 
 public class CurioControl {
 
-    private static List<TagKey<Item>> EXCLUSION_LIST;
+	private static List<TagKey<Item>> EXCLUSION_LIST;
 
-    @SubscribeEvent
-    public static void onCurioEquipEvent(CurioEquipEvent event) {
+	@SubscribeEvent
+	public static void onCurioEquipEvent(CurioEquipEvent event) {
 
-        LivingEntity entity = event.getEntity();
-        if (entity.level().isClientSide()) return;
+		LivingEntity entity = event.getEntity();
+		if (entity.level().isClientSide()) return;
 
-        Optional<ICuriosItemHandler> curios = CuriosApi.getCuriosInventory(entity).resolve();
+		Optional<ICuriosItemHandler> curios = CuriosApi.getCuriosInventory(entity).resolve();
 
-        if (curios.isEmpty()) return;
+		if (curios.isEmpty()) return;
 
-        // Can't equip same Curio twice
-        if (curios.get().isEquipped(event.getStack().getItem())) {
-            event.setResult(Event.Result.DENY);
-            return;
-        }
+		// Can't equip same Curio twice
+		if (curios.get().isEquipped(event.getStack().getItem())) {
+			event.setResult(Event.Result.DENY);
+			return;
+		}
 
-        // Exclusions
-        if (EXCLUSION_LIST == null) generateExclusions();
+		// Exclusions
+		if (EXCLUSION_LIST == null) generateExclusions();
 
-        for (ICurioStacksHandler curioStacksHandler : curios.get().getCurios().values()) {
-            IDynamicStackHandler stackHandler = curioStacksHandler.getStacks();
-            for (int i = 0; i < stackHandler.getSlots(); i++) {
-                ItemStack stack = stackHandler.getStackInSlot(i);
-                for (TagKey<Item> tag : EXCLUSION_LIST) {
-                    if (event.getStack().is(tag) && stack.is(tag)) {
-                        event.setResult(Event.Result.DENY);
-                        return;
-                    }
-                }
+		for (ICurioStacksHandler curioStacksHandler : curios.get().getCurios().values()) {
+			IDynamicStackHandler stackHandler = curioStacksHandler.getStacks();
+			for (int i = 0; i < stackHandler.getSlots(); i++) {
+				ItemStack stack = stackHandler.getStackInSlot(i);
+				for (TagKey<Item> tag : EXCLUSION_LIST) {
+					if (event.getStack().is(tag) && stack.is(tag)) {
+						event.setResult(Event.Result.DENY);
+						return;
+					}
+				}
 
-            }
-        }
-    }
+			}
+		}
+	}
 
-    // Only keep one type of curio slots
-    @SubscribeEvent
-    public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
-        Map<String, ISlotType> slots = CuriosApi.getPlayerSlots(event.getEntity());
-        for (ISlotType slot : slots.values()) {
-            String id = slot.getIdentifier();
-            if (!ADJData.curioSlotsToKeep.contains(id)) {
-                CuriosApi.getSlotHelper().setSlotsForType(id, event.getEntity(), 0);
-            }
-        }
-    }
+	// Only keep one type of curio slots
+	@SubscribeEvent
+	public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
+		Map<String, ISlotType> slots = CuriosApi.getPlayerSlots(event.getEntity());
+		for (ISlotType slot : slots.values()) {
+			String id = slot.getIdentifier();
+			if (!ADJData.curioSlotsToKeep.contains(id)) {
+				CuriosApi.getSlotHelper().setSlotsForType(id, event.getEntity(), 0);
+			}
+		}
+	}
 
-    @SubscribeEvent
-    public static void onTagsUpdated(TagsUpdatedEvent event) {
-        generateExclusions();
-    }
+	@SubscribeEvent
+	public static void onTagsUpdated(TagsUpdatedEvent event) {
+		generateExclusions();
+	}
 
-    private static final Enchantment CURIO_SOULBOUND = ForgeRegistries.ENCHANTMENTS.getValue(Config.Tools.soulboundEnchant);
+	private static final Enchantment CURIO_SOULBOUND = ForgeRegistries.ENCHANTMENTS.getValue(Config.Tools.soulboundEnchant);
 
-    @SubscribeEvent
-    public static void keepCurios(DropRulesEvent event) {
-        event.addOverride(i -> !i.is(ADJTags.CURIOS_DROPPED_ON_DEATH) || i.getEnchantmentLevel(CURIO_SOULBOUND) > 0, ICurio.DropRule.ALWAYS_KEEP);
-    }
+	@SubscribeEvent
+	public static void keepCurios(DropRulesEvent event) {
+		event.addOverride(i -> !i.is(ADJTags.Items.CURIOS_DROPPED_ON_DEATH) || i.getEnchantmentLevel(CURIO_SOULBOUND) > 0, ICurio.DropRule.ALWAYS_KEEP);
+	}
 
 
-    public static void generateExclusions() {
-        List<TagKey<Item>> exclusionList = new ArrayList<>();
-        // Loop through all tags and create an exclusion list
-        for (TagKey<Item> tagKey : BuiltInRegistries.ITEM.getTags().map(Pair::getFirst).collect(Collectors.toSet())) {
-            if (tagKey.location().toString().indexOf(ADJCore.MOD_ID + ":curio_exclusions/") == 0) {
-                exclusionList.add(tagKey);
-            }
-        }
-        EXCLUSION_LIST = exclusionList;
-    }
+	public static void generateExclusions() {
+		List<TagKey<Item>> exclusionList = new ArrayList<>();
+		// Loop through all tags and create an exclusion list
+		for (TagKey<Item> tagKey : BuiltInRegistries.ITEM.getTags().map(Pair::getFirst).collect(Collectors.toSet())) {
+			if (tagKey.location().toString().indexOf(ADJCore.MOD_ID + ":curio_exclusions/") == 0) {
+				exclusionList.add(tagKey);
+			}
+		}
+		EXCLUSION_LIST = exclusionList;
+	}
 }

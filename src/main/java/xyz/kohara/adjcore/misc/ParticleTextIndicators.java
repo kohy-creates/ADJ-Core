@@ -1,11 +1,8 @@
 package xyz.kohara.adjcore.misc;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
@@ -19,10 +16,9 @@ import xyz.kohara.adjcore.misc.events.ADJHealEvent;
 import xyz.kohara.adjcore.misc.events.ADJHurtEvent;
 import xyz.kohara.adjcore.client.networking.ADJMessages;
 import xyz.kohara.adjcore.client.networking.packet.DamageIndicatorS2CPacket;
-import xyz.kohara.adjcore.registry.ADJDamageTypeTags;
+import xyz.kohara.adjcore.registry.ADJTags;
 
 import java.awt.*;
-import java.util.function.UnaryOperator;
 
 public class ParticleTextIndicators {
 
@@ -102,7 +98,7 @@ public class ParticleTextIndicators {
 		Entity victim = event.getVictim();
 		LivingEntity attacker = event.getAttacker();
 
-		boolean isSmall = event.getSource().is(ADJDamageTypeTags.DAMAGE_OVER_TIME);
+		boolean isSmall = event.getSource().is(ADJTags.DamageTypes.DAMAGE_OVER_TIME);
 
 		Type type = event.getStyle();
 		if (event.getStyle() == null) {

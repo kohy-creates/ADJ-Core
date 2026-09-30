@@ -22,8 +22,8 @@ public class EnchantmentTableMixin {
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void replaceBookshelfOffsets(CallbackInfo ci) {
-        BOOKSHELF_OFFSETS = BlockPos.betweenClosedStream(-2, 0, -2, 2, 2, 2)
-                .filter(pos -> Math.abs(pos.getX()) == 2 || Math.abs(pos.getZ()) == 2)
+        BOOKSHELF_OFFSETS = BlockPos.betweenClosedStream(-3, 0, -3, 3, 2, 3)
+                .filter(pos -> Math.abs(pos.getX()) >= 1 || Math.abs(pos.getZ()) >= 1)
                 .map(BlockPos::immutable)
                 .toList();
     }

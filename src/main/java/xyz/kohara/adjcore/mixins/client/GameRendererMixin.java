@@ -11,7 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.kohara.adjcore.registry.ADJDamageTypeTags;
+import xyz.kohara.adjcore.registry.ADJTags;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
@@ -24,7 +24,7 @@ public class GameRendererMixin {
 	private void redoBobHurtLogic(PoseStack matrixStack, float partialTicks, Operation<Void> original) {
 		if (this.minecraft.getCameraEntity() instanceof LivingEntity livingentity) {
 			var damage = livingentity.getLastDamageSource();
-			if (damage != null && damage.is(ADJDamageTypeTags.NO_HURT_BOB)) return;
+			if (damage != null && damage.is(ADJTags.DamageTypes.NO_HURT_BOB)) return;
 
 			float f = livingentity.hurtTime - partialTicks;
 			if (livingentity.isDeadOrDying()) {

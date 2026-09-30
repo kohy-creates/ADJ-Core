@@ -17,33 +17,26 @@ import xyz.kohara.adjcore.registry.ADJAttributes;
 @Mixin(Block.class)
 public class BlockMixin {
 
-    @WrapOperation(method = "fallOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;causeFallDamage(FFLnet/minecraft/world/damagesource/DamageSource;)Z"))
-    private boolean redoFallDamage(Entity entity, float fallDistance, float multiplier, DamageSource source, Operation<Boolean> original) {
-        multiplier *= 10f;
-        if (entity instanceof LivingEntity livingEntity) {
-            AttributeInstance safeFallDistance = livingEntity.getAttribute(ADJAttributes.SAFE_FALL_DISTANCE.get());
-            if (safeFallDistance != null) {
-                fallDistance -= (float) safeFallDistance.getValue();
-            }
+	@WrapOperation(method = "fallOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;causeFallDamage(FFLnet/minecraft/world/damagesource/DamageSource;)Z"))
+	private boolean redoFallDamage(Entity entity, float fallDistance, float multiplier, DamageSource source, Operation<Boolean> original) {
+		multiplier *= 10f;
+		if (entity instanceof LivingEntity livingEntity) {
+			fallDistance -= (float) livingEntity.getAttributeValue(ADJAttributes.SAFE_FALL_DISTANCE.get());
+			multiplier -= ((float) livingEntity.getAttributeValue(ADJAttributes.FALL_DAMAGE_REDUCTION.get())) * multiplier;
+		}
+		return entity.causeFallDamage(fallDistance - 2f /* so that it's 5 safe fall distance base */, multiplier, source);
+	}
 
-            AttributeInstance fallDamageReduction = livingEntity.getAttribute(ADJAttributes.FALL_DAMAGE_REDUCTION.get());
-            if (fallDamageReduction != null) {
-                multiplier -= (float) fallDamageReduction.getValue() * multiplier;
-            }
-        }
-        return entity.causeFallDamage(fallDistance - 2f /* so that it's 5 safe fall distance base */, multiplier, source);
-    }
-
-    @Redirect(
-            method = "playerDestroy",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/player/Player;causeFoodExhaustion(F)V"
-            )
-    )
-    private void redirectBlockMiningExhaustion(Player player, float original) {
-        float multiplier = (float) Config.Exhaustion.blockMiningMul;
-        float modified = original * multiplier;
-        player.causeFoodExhaustion(modified);
-    }
+	@Redirect(
+			method = "playerDestroy",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/player/Player;causeFoodExhaustion(F)V"
+			)
+	)
+	private void redirectBlockMiningExhaustion(Player player, float original) {
+		float multiplier = (float) Config.Exhaustion.blockMiningMul;
+		float modified = original * multiplier;
+		player.causeFoodExhaustion(modified);
+	}
 }

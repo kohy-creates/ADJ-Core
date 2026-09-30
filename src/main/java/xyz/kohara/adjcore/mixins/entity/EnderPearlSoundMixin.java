@@ -14,8 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ThrownEnderpearl.class)
-abstract class EnderPearlSoundMixin extends ThrowableItemProjectile {
-
+public abstract class EnderPearlSoundMixin extends ThrowableItemProjectile {
 
     public EnderPearlSoundMixin(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);

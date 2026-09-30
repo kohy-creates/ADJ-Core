@@ -42,5 +42,4 @@ public abstract class PanoramaRendererMixin {
         cubeMap.render(this.minecraft, 10.0F + bobOffset, -this.spin, alpha);
 
     }
-
 }

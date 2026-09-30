@@ -1,4 +1,4 @@
-package xyz.kohara.adjcore.mixins.client;
+package xyz.kohara.adjcore.mixins.client.text;
 
 import net.minecraft.client.StringSplitter;
 import net.minecraft.client.gui.Font;

@@ -2,6 +2,8 @@ package xyz.kohara.adjcore.mixins.client.text;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.font.GlyphInfo;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
@@ -11,19 +13,18 @@ import net.minecraft.network.chat.Style;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import oshi.util.tuples.Pair;
+import xyz.kohara.adjcore.ADJCore;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(Font.StringRenderOutput.class)
-public abstract class FontStringRendererOutputMixin {
+public abstract class FontStringRenderOutputMixin {
 
     @Shadow
     @Final
@@ -141,5 +142,13 @@ public abstract class FontStringRendererOutputMixin {
             Operation<Void> original
     ) {
         original.call(instance, glyph, bold, italic, boldOffset, x, y, matrix, buffer, adj$r, adj$g, adj$b, alpha, packedLight);
+    }
+
+    @WrapOperation(
+            method = "accept",
+            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/font/GlyphInfo;getAdvance(Z)F")
+    )
+    private float reduceOutlineAdvance(GlyphInfo instance, boolean bold, Operation<Float> original, @Local(argsOnly = true) Style style) {
+        return ADJCore.getFontAdvance(style.getFont(), original.call(instance, bold));
     }
 }

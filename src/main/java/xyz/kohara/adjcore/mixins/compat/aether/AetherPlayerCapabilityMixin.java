@@ -22,6 +22,13 @@ public abstract class AetherPlayerCapabilityMixin {
 
     @Inject(method = "getLifeShardHealthAttributeModifier", at = @At("HEAD"), cancellable = true)
     private void increaseAmount(CallbackInfoReturnable<AttributeModifier> cir) {
-        cir.setReturnValue(new AttributeModifier(LIFE_SHARD_HEALTH_ID, "Life Shard health increase", (float) this.getLifeShardCount() * 10.0F, AttributeModifier.Operation.ADDITION));
+        cir.setReturnValue(
+                new AttributeModifier(
+                        LIFE_SHARD_HEALTH_ID,
+                        "Life Shard health increase",
+                        (float) this.getLifeShardCount() * 10.0F,
+                        AttributeModifier.Operation.ADDITION
+                )
+        );
     }
 }
