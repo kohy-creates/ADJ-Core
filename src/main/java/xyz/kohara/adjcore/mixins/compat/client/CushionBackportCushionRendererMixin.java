@@ -25,10 +25,20 @@ public class CushionBackportCushionRendererMixin {
 	});
 
 	@Inject(method = "getTextureLocation(Lcom/leclowndu93150/cushionbackport/entity/Cushion;)Lnet/minecraft/resources/ResourceLocation;", at = @At("HEAD"), cancellable = true)
-	private void addDyeDepotCompat(Cushion cushion, CallbackInfoReturnable<ResourceLocation> cir) {
+	private void addDyeDepotCompat1(Cushion cushion, CallbackInfoReturnable<ResourceLocation> cir) {
 		cir.setReturnValue(
 				adj$TEXTURES_BY_COLOR.getOrDefault(
 						cushion.getColor(),
+						adj$TEXTURES_BY_COLOR.get(DyeColor.BLACK)
+				)
+		);
+	}
+
+	@Inject(method = "texture", at = @At("HEAD"), cancellable = true)
+	private static void addDyeDepotCompat2(DyeColor color, CallbackInfoReturnable<ResourceLocation> cir) {
+		cir.setReturnValue(
+				adj$TEXTURES_BY_COLOR.getOrDefault(
+						color,
 						adj$TEXTURES_BY_COLOR.get(DyeColor.BLACK)
 				)
 		);

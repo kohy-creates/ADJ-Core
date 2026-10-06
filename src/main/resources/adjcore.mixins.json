@@ -57,7 +57,7 @@
 		"compat.botania.TerrasteelHelmItemMixin",
 		"compat.botania.TerraSwordItemMixin",
 		"compat.botania.windowbox.AlfthorneTreeMixin",
-		"compat.client.CushionBackportForgeRegistryMixin",
+		"compat.CushionBackportForgeRegistryMixin",
 		"compat.evilcraft.WorldStructureDarkTempleMixin",
 		"compat.evilcraft.WorldStructureDarkTemplePieceMixin",
 		"compat.mutantmonsters.PlayerEventsHandlerMixin",

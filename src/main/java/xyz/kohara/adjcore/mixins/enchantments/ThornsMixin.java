@@ -19,19 +19,11 @@ public class ThornsMixin {
 
     @Inject(method = "shouldHit", cancellable = true, at = @At("HEAD"))
     private static void shouldDamageAttacker(int level, RandomSource random, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(random.nextFloat() < (0.2F + level * 0.1F));
+        cir.setReturnValue(random.nextFloat() <= 0.5f);
     }
 
     @Inject(method = "getDamage", cancellable = true, at = @At("HEAD"))
     private static void getDamageAmount(int level, RandomSource random, CallbackInfoReturnable<Integer> cir) {
-        if (level == 1) {
-            cir.setReturnValue(1 + random.nextInt(2));
-        } else if (level == 2) {
-            cir.setReturnValue(1 + random.nextInt(3));
-        } else if (level == 3) {
-            cir.setReturnValue(2 + random.nextInt(2));
-        } else {
-            cir.setReturnValue(1 + random.nextInt(4));
-        }
+            cir.setReturnValue(7 + random.nextInt((level - 1) * 8));
     }
 }

@@ -1,4 +1,4 @@
-package xyz.kohara.adjcore.mixins.compat.client;
+package xyz.kohara.adjcore.mixins.compat;
 
 import com.leclowndu93150.cushionbackport.Cushionbackport;
 import com.leclowndu93150.cushionbackport.entity.Cushion;
@@ -73,7 +73,7 @@ public abstract class CushionBackportForgeRegistryMixin {
 				.title(Component.translatable("itemGroup.cushionbackport"))
 				.icon(() -> new ItemStack(CBItems.cushion(DyeColor.RED)))
 				.displayItems((params, output) -> {
-					for (DyeColor color : CBItems.VANILLA_COLORS) {
+					for (DyeColor color : DyeColor.values()) {
 						output.accept(CBItems.cushion(color));
 					}
 				})

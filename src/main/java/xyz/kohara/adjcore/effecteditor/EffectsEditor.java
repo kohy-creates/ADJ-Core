@@ -23,10 +23,9 @@ public class EffectsEditor {
 
     public static void edit() {
         loadConfig();
-        for (MobEffect effect : BuiltInRegistries.MOB_EFFECT) {
-            String[] name = effect.getDescriptionId().split("\\.");
+        for (var effect : ForgeRegistries.MOB_EFFECTS.getValues()) {
 
-            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(name[1], name[2]);
+            ResourceLocation id = ForgeRegistries.MOB_EFFECTS.getKey(effect);
 
             if (config.containsKey(id)) {
                 EffectEditorConfig.ConfigData data = config.get(id);

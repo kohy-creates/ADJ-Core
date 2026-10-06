@@ -28,6 +28,7 @@ public class ADJData {
 	private static final String EXTRA_HEART_DROP_RULES = path("extra_heart_drop_rules");
 	private static final String CURIO_SLOTS_TO_KEEP = path("curio_slots_to_keep");
 	private static final String HEALING_EFFECTS = path("healing_effects");
+	private static final String X100_ATTRIBUTES = path("x100_attributes.txt");
 
 	private static final List<String> deathTexts = new ArrayList<>();
 	public static final List<String> structuresIgnoreMinDistance = new ArrayList<>();
@@ -37,6 +38,7 @@ public class ADJData {
 	public static final Map<ResourceLocation, HeartDropRule> heartDropRules = new HashMap<>();
 	public static final List<String> curioSlotsToKeep = new ArrayList<>();
 	public static final List<ResourceLocation> healingEffects = new ArrayList<>();
+	public static final List<ResourceLocation> x100Attributes = new ArrayList<>();
 
 	static {
 		reloadEverythingReloadable();
@@ -48,6 +50,10 @@ public class ADJData {
 		potionNameOverrides.clear();
 		windowTitles.clear();
 		attributesTooltipOrder.clear();
+		heartDropRules.clear();
+		curioSlotsToKeep.clear();
+		healingEffects.clear();
+		x100Attributes.clear();
 
 		deathTexts.addAll(readLines(DEATH_TEXTS_FILE));
 		structuresIgnoreMinDistance.addAll(readLines(STRUCTURES_IGNORE_MIN_DISTANCE_FILE));
@@ -85,6 +91,11 @@ public class ADJData {
 				.stream()
 				.map(ResourceLocation::parse)
 				.forEach(healingEffects::add);
+
+		readLines(X100_ATTRIBUTES)
+				.stream()
+				.map(ResourceLocation::parse)
+				.forEach(x100Attributes::add);
 	}
 
 	private static List<String> readLines(String path) {
