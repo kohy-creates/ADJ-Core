@@ -328,4 +328,6 @@ public class ADJCore {
 		int delay = (int) Math.ceil(regenDelay / 4);
 		player.adjcore$setManaRegenDelay(delay);
 	}
+
+
 }
