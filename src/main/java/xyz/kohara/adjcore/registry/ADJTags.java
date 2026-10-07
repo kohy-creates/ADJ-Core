@@ -13,6 +13,7 @@ public class ADJTags {
 
 	public static class Items {
 		public static final TagKey<Item> CURIOS_DROPPED_ON_DEATH = create(Registries.ITEM, "curios_dropped_on_death");
+		public static final TagKey<Item> BREWING_INGREDIENTS = create(Registries.ITEM, "brewing_ingredients");
 	}
 
 	public static class EntityTypes {

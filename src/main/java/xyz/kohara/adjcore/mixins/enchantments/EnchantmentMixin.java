@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraftforge.common.Tags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -47,7 +48,7 @@ public abstract class EnchantmentMixin {
         // The original was already set to true.
         // The stack isn't a crossbow.
         // Crossbow Enchants is disabled.
-        if (original || !(stack.is(Items.CROSSBOW) || stack.is(Items.BOW))) {
+        if (original || !(stack.is(Tags.Items.TOOLS_BOWS) || stack.is(Tags.Items.TOOLS_CROSSBOWS))) {
             return original;
         }
 
