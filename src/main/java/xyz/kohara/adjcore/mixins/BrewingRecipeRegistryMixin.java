@@ -47,6 +47,8 @@ public class BrewingRecipeRegistryMixin {
 			cancellable = true
 	)
 	private static void makeMoreItemsBrewableAndPreventOverwriting(NonNullList<ItemStack> inputs, ItemStack ingredient, int[] inputIndexes, CallbackInfoReturnable<Boolean> cir) {
+		if (inputs.isEmpty()) cir.setReturnValue(false);
+
 		for (var i : inputs) {
 			if (!PotionUtils.getMobEffects(i).isEmpty()) cir.setReturnValue(false);
 		}
