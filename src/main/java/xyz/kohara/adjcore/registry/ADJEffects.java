@@ -152,13 +152,6 @@ public class ADJEffects {
 				"Decay"
 		);
 
-		public static RegistryObject<Potion> LEVITATION = register(
-				"levitation",
-				"levitation",
-				() -> new MobEffectInstance(MobEffects.LEVITATION, 200, 0),
-				"Levitation"
-		);
-
 		public static RegistryObject<Potion> IRON_SKIN = register(
 				"iron_skin",
 				"iron_skin",
@@ -199,6 +192,27 @@ public class ADJEffects {
 				"healing_potion",
 				() -> new MobEffectInstance(MobEffects.HEAL, 1, 1),
 				"Healing"
+		);
+
+		public static RegistryObject<Potion> GREATER_HEALING_POTION = register(
+				"greater_healing_potion",
+				"greater_healing_potion",
+				() -> new MobEffectInstance(MobEffects.HEAL, 1, 2),
+				"Greater Healing"
+		);
+
+		public static RegistryObject<Potion> SUPREME_HEALING_POTION = register(
+				"supreme_healing_potion",
+				"supreme_healing_potion",
+				() -> new MobEffectInstance(MobEffects.HEAL, 1, 3),
+				"Supreme Healing"
+		);
+
+		public static RegistryObject<Potion> OMEGA_HEALING_POTION = register(
+				"omega_healing_potion",
+				"omega_healing_potion",
+				() -> new MobEffectInstance(MobEffects.HEAL, 1, 4),
+				"Omega Healing"
 		);
 
 		private static RegistryObject<Potion> register(String id, String langName, Supplier<MobEffectInstance> effect, String name) {
