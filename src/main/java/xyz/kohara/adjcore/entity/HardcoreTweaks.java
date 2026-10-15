@@ -5,7 +5,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 
 public class HardcoreTweaks {
 
@@ -17,7 +17,7 @@ public class HardcoreTweaks {
             level.getGameRules()
                     .getRule(GameRules.RULE_SPAWN_RADIUS)
                     .set(
-                            Config.Hardcore.respawnRadius,
+                            ADJConfig.Hardcore.respawnRadius,
                             level.getServer()
                     );
 

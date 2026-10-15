@@ -16,7 +16,6 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.minecraftforge.common.world.ModifiableStructureInfo;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -25,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.ADJData;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 import xyz.kohara.adjcore.misc.IGeneratorNearbyStructureHolder;
 
 import java.util.List;
@@ -61,7 +60,7 @@ public abstract class StructureMinPlacementMixin {
 			return;
 		}
 
-		final int distance = Config.Structures.minDistance;
+		final int distance = ADJConfig.Structures.minDistance;
 		final int xzOffset = 3000000 * distance;
 		final int yOffset = this.getModifiedStructureSettings().step() == GenerationStep.Decoration.SURFACE_STRUCTURES ? 2000 : 500;
 

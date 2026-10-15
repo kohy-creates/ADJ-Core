@@ -10,11 +10,10 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 
 @Mixin(Inventory.class)
 public class InventoryMixin {
@@ -28,7 +27,7 @@ public class InventoryMixin {
 		ci.cancel();
 		Inventory inventory = (Inventory) (Object) this;
 		if (!(damage <= 0.0F)) {
-			damage /= (float) Config.Combat.armorDurabilityDamageFactor;
+			damage /= (float) ADJConfig.Combat.armorDurabilityDamageFactor;
 			if (damage < 1.0F) {
 				damage = 1.0F;
 			}

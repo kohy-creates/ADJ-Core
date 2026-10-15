@@ -32,6 +32,8 @@ public class ADJTags {
 		public static final TagKey<DamageType> IS_PHYSICAL = create(Registries.DAMAGE_TYPE, "is_physical");
 
 		public static final TagKey<DamageType> NO_HURT_BOB = create(Registries.DAMAGE_TYPE, "no_hurt_bob");
+
+		public static final TagKey<DamageType> THORNS_BLACKLIST = create(Registries.DAMAGE_TYPE, "thorns_blacklist");
 	}
 
 	public static <T> TagKey<T> create(ResourceKey<? extends Registry<T>> key, String path) {

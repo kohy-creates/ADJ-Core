@@ -2,7 +2,6 @@ package xyz.kohara.adjcore.compat.curios;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -23,7 +22,7 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 import xyz.kohara.adjcore.ADJCore;
 import xyz.kohara.adjcore.ADJData;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 import xyz.kohara.adjcore.registry.ADJTags;
 
 import java.util.*;
@@ -84,7 +83,7 @@ public class CurioControl {
 		generateExclusions();
 	}
 
-	private static final Enchantment CURIO_SOULBOUND = ForgeRegistries.ENCHANTMENTS.getValue(Config.Tools.soulboundEnchant);
+	private static final Enchantment CURIO_SOULBOUND = ForgeRegistries.ENCHANTMENTS.getValue(ADJConfig.Tools.soulboundEnchant);
 
 	@SubscribeEvent
 	public static void keepCurios(DropRulesEvent event) {

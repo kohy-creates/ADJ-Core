@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 import xyz.kohara.adjcore.registry.ADJSoundEvents;
 
 @Mixin(BowItem.class)
@@ -32,7 +32,7 @@ public class BowMixin {
                     value = "CONSTANT", args = "floatValue=1.0", ordinal = 0)
     )
     private float addInaccuracy(float original) {
-        return (float) Config.Combat.bowInaccuracy;
+        return (float) ADJConfig.Combat.bowInaccuracy;
     }
 
     @Redirect(

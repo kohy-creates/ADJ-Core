@@ -5,7 +5,7 @@ import net.minecraft.world.damagesource.DamageType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 
 @Mixin(DamageSource.class)
 public class DamageSourceMixin {
@@ -19,7 +19,7 @@ public class DamageSourceMixin {
 	)
 	private float redirectExhaustion(DamageType damageType) {
 		float original = damageType.exhaustion();
-		float multiplier = (float) Config.Exhaustion.damageTypeMul;
+		float multiplier = (float) ADJConfig.Exhaustion.damageTypeMul;
 		return original * multiplier;
 	}
 }

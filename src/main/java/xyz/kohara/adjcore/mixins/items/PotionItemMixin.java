@@ -23,10 +23,7 @@ public class PotionItemMixin {
 	)
 	private void cancelPotionUse(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
 		ItemStack item = player.getItemInHand(hand);
-		if (
-				player.hasEffect(ADJEffects.POTION_SICKNESS.get())
-						&& PotionSicknessEffect.hasHealingEffect(item)
-		) {
+		if (player.hasEffect(ADJEffects.POTION_SICKNESS.get()) && PotionSicknessEffect.hasHealingEffect(item)) {
 			cir.setReturnValue(InteractionResultHolder.fail(item));
 		}
 

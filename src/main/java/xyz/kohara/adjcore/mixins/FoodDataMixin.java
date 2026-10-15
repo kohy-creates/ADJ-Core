@@ -4,7 +4,7 @@ import net.minecraft.world.food.FoodData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 
 @Mixin(FoodData.class)
 public class FoodDataMixin {
@@ -15,6 +15,6 @@ public class FoodDataMixin {
 			argsOnly = true
 	)
 	private float modifyExhaustionAmount(float amountToAdd) {
-		return (float) (amountToAdd * Config.Exhaustion.globalMul);
+		return (float) (amountToAdd * ADJConfig.Exhaustion.globalMul);
 	}
 }

@@ -10,8 +10,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeItem;
 import org.spongepowered.asm.mixin.Mixin;
-import xyz.kohara.adjcore.Config;
-import xyz.kohara.adjcore.compat.kubejs.serverevents.ItemRarityGetEventJS;
+import xyz.kohara.adjcore.ADJConfig;
 import xyz.kohara.adjcore.misc.events.ItemRarityGetEvent;
 
 import java.util.Objects;
@@ -24,7 +23,7 @@ public abstract class ItemMixin implements IForgeItem {
 		double durability = IForgeItem.super.getMaxDamage(stack);
 		int i = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack);
 		if (i > 0) {
-			durability *= Config.Tools.unbreakingMultiplier;
+			durability *= ADJConfig.Tools.unbreakingMultiplier;
 		}
 		return (int) durability;
 	}

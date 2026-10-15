@@ -5,13 +5,12 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 import xyz.kohara.adjcore.registry.ADJAttributes;
 
 @Mixin(Block.class)
@@ -35,7 +34,7 @@ public class BlockMixin {
 			)
 	)
 	private void redirectBlockMiningExhaustion(Player player, float original) {
-		float multiplier = (float) Config.Exhaustion.blockMiningMul;
+		float multiplier = (float) ADJConfig.Exhaustion.blockMiningMul;
 		float modified = original * multiplier;
 		player.causeFoodExhaustion(modified);
 	}

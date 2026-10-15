@@ -5,7 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
-public class Config {
+public class ADJConfig {
 	private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 	public static final ForgeConfigSpec SPEC;
 
@@ -40,6 +40,7 @@ public class Config {
 	private static final ForgeConfigSpec.DoubleValue SHALLOW_WATER_WALK_MULTIPLIER;
 	private static final ForgeConfigSpec.DoubleValue SPRINT_MULTIPLIER;
 	private static final ForgeConfigSpec.DoubleValue BLOCK_MINING_MULTIPLIER;
+	private static final ForgeConfigSpec.DoubleValue THORNS_DAMAGE_MULTIPLIER;
 
 	public static class Combat {
 		public static int shieldDelay;
@@ -52,6 +53,7 @@ public class Config {
 		public static double armorPointReductionFactorEntity;
 		public static double armorDurabilityDamageFactor;
 		public static int maxDamageInOneHit;
+		public static double thornsDamageMultiplier;
 	}
 
 	public static class Tools {
@@ -95,6 +97,7 @@ public class Config {
 		Combat.armorPointReductionFactorEntity = ARMOR_POINT_REDUCTION_FACTOR_ENTITY.get();
 		Combat.armorDurabilityDamageFactor = ARMOR_DURABILITY_DAMAGE_FACTOR.get();
 		Combat.maxDamageInOneHit = MAX_DAMAGE_IN_ONE_HIT.get();
+		Combat.thornsDamageMultiplier = THORNS_DAMAGE_MULTIPLIER.get();
 
 		Campfire.healRadius = CAMPFIRE_HEAL_RADIUS.get();
 		Campfire.healRadiusSignal = CAMPFIRE_HEAL_RADIUS_SIGNAL.get();
@@ -199,6 +202,10 @@ public class Config {
 		MAX_DAMAGE_IN_ONE_HIT = BUILDER
 				.comment("Maximum amount of damage that can be dealt in a single damage instance. Anything higher than that gets clamped to that value")
 				.defineInRange("MAX_DAMAGE_IN_ONE_HIT", 999999, 0, Integer.MAX_VALUE);
+
+		THORNS_DAMAGE_MULTIPLIER = BUILDER
+				.comment("Percentage of damage relative to damage dealth reflected back at the attacker if victim has Thorns potion effect")
+				.defineInRange("THORNS_DAMAGE_MULTIPLEIR", 0d, 5d, 1d);
 
 		BUILDER.pop();
 

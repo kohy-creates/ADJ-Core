@@ -1,17 +1,12 @@
 package xyz.kohara.adjcore.mixins.entity;
 
-import com.hollingsworth.arsnouveau.api.event.SpellCostCalcEvent;
 import com.hollingsworth.arsnouveau.api.mana.IManaCap;
-import com.hollingsworth.arsnouveau.api.util.ManaUtil;
-import com.hollingsworth.arsnouveau.common.capability.ManaCap;
 import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.network.NotEnoughManaPacket;
 import com.hollingsworth.arsnouveau.common.network.PacketUpdateMana;
-import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import com.hollingsworth.arsnouveau.setup.registry.CapabilityRegistry;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -21,7 +16,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.level.NoteBlockEvent;
 import net.minecraftforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -30,8 +24,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.kohara.adjcore.ADJConfig;
 import xyz.kohara.adjcore.ADJCore;
-import xyz.kohara.adjcore.Config;
 import xyz.kohara.adjcore.compat.ArsManaShenanigans;
 import xyz.kohara.adjcore.misc.ParticleTextIndicators;
 import xyz.kohara.adjcore.registry.ADJAttributes;
@@ -53,7 +47,7 @@ public abstract class PlayerMixin extends LivingEntity implements ArsManaShenani
 			)
 	)
 	private boolean adjUtils$canCrit(boolean isOnClimbable) {
-		return Config.Combat.disableCrits || isOnClimbable;
+		return ADJConfig.Combat.disableCrits || isOnClimbable;
 	}
 
 	@ModifyExpressionValue(
@@ -64,7 +58,7 @@ public abstract class PlayerMixin extends LivingEntity implements ArsManaShenani
 			)
 	)
 	private List<LivingEntity> adjUtils$modifyListOfSweepAttacks(List<LivingEntity> listOfSweepAttacks) {
-		return Config.Combat.disableSweepAttacks ? List.of() : listOfSweepAttacks;
+		return ADJConfig.Combat.disableSweepAttacks ? List.of() : listOfSweepAttacks;
 	}
 
 	@Redirect(
@@ -178,7 +172,7 @@ public abstract class PlayerMixin extends LivingEntity implements ArsManaShenani
 			)
 	)
 	private void redirectJumpExhaustion(Player instance, float original) {
-		float multiplier = (float) Config.Exhaustion.jumpMul;
+		float multiplier = (float) ADJConfig.Exhaustion.jumpMul;
 		float modified = original * multiplier;
 		instance.causeFoodExhaustion(modified);
 	}
@@ -192,7 +186,7 @@ public abstract class PlayerMixin extends LivingEntity implements ArsManaShenani
 			)
 	)
 	private void redirectSwimExhaustion(Player player, float original) {
-		float multiplier = (float) Config.Exhaustion.swimMul;
+		float multiplier = (float) ADJConfig.Exhaustion.swimMul;
 		float modified = original * multiplier;
 		player.causeFoodExhaustion(modified);
 	}
@@ -206,7 +200,7 @@ public abstract class PlayerMixin extends LivingEntity implements ArsManaShenani
 			)
 	)
 	private void redirectUnderwaterWalkExhaustion(Player player, float original) {
-		float multiplier = (float) Config.Exhaustion.underwaterWalkMul;
+		float multiplier = (float) ADJConfig.Exhaustion.underwaterWalkMul;
 		float modified = original * multiplier;
 		player.causeFoodExhaustion(modified);
 	}
@@ -220,7 +214,7 @@ public abstract class PlayerMixin extends LivingEntity implements ArsManaShenani
 			)
 	)
 	private void redirectShallowWaterWalkExhaustion(Player player, float original) {
-		float multiplier = (float) Config.Exhaustion.shallowWaterWalkMul;
+		float multiplier = (float) ADJConfig.Exhaustion.shallowWaterWalkMul;
 		float modified = original * multiplier;
 		player.causeFoodExhaustion(modified);
 	}
@@ -234,7 +228,7 @@ public abstract class PlayerMixin extends LivingEntity implements ArsManaShenani
 			)
 	)
 	private void redirectSprintExhaustion(Player player, float original) {
-		float multiplier = (float) Config.Exhaustion.sprintMul;
+		float multiplier = (float) ADJConfig.Exhaustion.sprintMul;
 		float modified = original * multiplier;
 		player.causeFoodExhaustion(modified);
 	}

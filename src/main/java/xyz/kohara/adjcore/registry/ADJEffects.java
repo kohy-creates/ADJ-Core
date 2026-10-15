@@ -2,6 +2,7 @@ package xyz.kohara.adjcore.registry;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -61,6 +62,41 @@ public class ADJEffects {
 			"Cannot consume any more healing items"
 	);
 
+	public static final RegistryObject<MobEffect> ARCHERY = register(
+			"archery",
+			new ArcheryEffect(),
+			"Archery",
+			"10% increased arrow damage and 20% increased arrow velocity"
+	);
+
+	public static final RegistryObject<MobEffect> BUILDER = register(
+			"builder",
+			new BuilderEffect(),
+			"Builder",
+			"Increased block reach"
+	);
+
+	public static final RegistryObject<MobEffect> IRON_SKIN = register(
+			"iron_skin",
+			new ArcheryEffect(),
+			"Ironskin",
+			"Increase defense by 6"
+	);
+
+	public static final RegistryObject<MobEffect> MAGIC_POWER = register(
+			"magic_power",
+			new MagicPowerEffect(),
+			"Magic Power",
+			"15% increased magic damage"
+	);
+
+	public static final RegistryObject<MobEffect> THORNS = register(
+			"thorns",
+			new ThornsEffect(),
+			"Thorns",
+			"Attacks also take damage"
+	);
+
 
 	private static RegistryObject<MobEffect> register(String id, MobEffect effect, String name, String description) {
 		LangGenerator.addEffectTranslation(id, name, description);
@@ -100,6 +136,69 @@ public class ADJEffects {
 				"instant_mana",
 				() -> new MobEffectInstance(INSTANT_MANA.get(), 1, 2),
 				"Greater Mana"
+		);
+
+		public static RegistryObject<Potion> ENDURANCE = register(
+				"endurance",
+				"resistance",
+				() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 4800, 0),
+				"Endurance"
+		);
+
+		public static RegistryObject<Potion> DECAY = register(
+				"decay",
+				"wither",
+				() -> new MobEffectInstance(MobEffects.WITHER, 600, 0),
+				"Decay"
+		);
+
+		public static RegistryObject<Potion> LEVITATION = register(
+				"levitation",
+				"levitation",
+				() -> new MobEffectInstance(MobEffects.LEVITATION, 200, 0),
+				"Levitation"
+		);
+
+		public static RegistryObject<Potion> IRON_SKIN = register(
+				"iron_skin",
+				"iron_skin",
+				() -> new MobEffectInstance(ADJEffects.IRON_SKIN.get(), 9600, 0),
+				"Ironskin"
+		);
+
+		public static RegistryObject<Potion> ARCHERY = register(
+				"archery",
+				"archery",
+				() -> new MobEffectInstance(ADJEffects.ARCHERY.get(), 9600, 0),
+				"Archery"
+		);
+
+		public static RegistryObject<Potion> MAGIC_POWER = register(
+				"magic_power",
+				"magic_power",
+				() -> new MobEffectInstance(ADJEffects.MAGIC_POWER.get(), 4800, 0),
+				"Magic Power"
+		);
+
+		public static RegistryObject<Potion> BUILDER = register(
+				"builder",
+				"builder",
+				() -> new MobEffectInstance(ADJEffects.BUILDER.get(), 54000, 0),
+				"Builder"
+		);
+
+		public static RegistryObject<Potion> THORNS = register(
+				"thorns",
+				"thorns",
+				() -> new MobEffectInstance(ADJEffects.THORNS.get(), 9600, 0),
+				"Thorns"
+		);
+
+		public static RegistryObject<Potion> HEALING_POTION = register(
+				"healing_potion",
+				"healing_potion",
+				() -> new MobEffectInstance(MobEffects.HEAL, 1, 1),
+				"Healing"
 		);
 
 		private static RegistryObject<Potion> register(String id, String langName, Supplier<MobEffectInstance> effect, String name) {

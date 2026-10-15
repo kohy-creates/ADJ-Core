@@ -17,15 +17,6 @@ public class CozyCampfireEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(@NotNull LivingEntity entity, int pAmplifier) {
-    }
-
-    @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return true;
-    }
-
-    @Override
     public void addAttributeModifiers(@NotNull LivingEntity entity, @NotNull AttributeMap attributeMap, int amplifier) {
         this.addAttributeModifier(ADJAttributes.HEALTH_REGEN.get(), "0961d17e-1558-48a8-9ff9-53da1cb3bdb8", 0.1d, AttributeModifier.Operation.MULTIPLY_TOTAL);
         this.addAttributeModifier(ADJAttributes.HEALTH_REGEN.get(), "69fede9c-1964-4dcc-9caa-66d8eb2b8510", 0.5d, AttributeModifier.Operation.ADDITION);

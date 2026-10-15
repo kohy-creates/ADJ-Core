@@ -33,7 +33,7 @@ import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.kohara.adjcore.Config;
+import xyz.kohara.adjcore.ADJConfig;
 import xyz.kohara.adjcore.client.networking.ADJMessages;
 import xyz.kohara.adjcore.client.networking.packet.EnchantedCritParticleS2CPacket;
 import xyz.kohara.adjcore.misc.events.ADJHurtEvent;
@@ -191,8 +191,8 @@ public class DamageHandler {
 			}
 		}
 
-		if (baseAmount > Config.Combat.maxDamageInOneHit) {
-			event.setAmount(Config.Combat.maxDamageInOneHit);
+		if (baseAmount > ADJConfig.Combat.maxDamageInOneHit) {
+			event.setAmount(ADJConfig.Combat.maxDamageInOneHit);
 			return;
 		}
 
@@ -257,9 +257,9 @@ public class DamageHandler {
 
 		// 2. Apply variation
 		if (DISALLOWED_TAGS.stream().noneMatch(source::is)) {
-//            System.out.println(Config.Combat.damageVariation);
-			double min = 1d - Config.Combat.damageVariation;
-			double max = 1d + Config.Combat.damageVariation;
+//            System.out.println(ADJConfig.Combat.damageVariation);
+			double min = 1d - ADJConfig.Combat.damageVariation;
+			double max = 1d + ADJConfig.Combat.damageVariation;
 			double multiplier = min + Math.random() * (max - min);
 
 			if (attackerEntity instanceof LivingEntity attacker) {
@@ -296,12 +296,12 @@ public class DamageHandler {
 				armorPoints = Math.max(Math.round(armorPoints * armorShred) - armorPierce, 0);
 			}
 
-			float factor = (float) ((victimEntity instanceof Player) ? Config.Combat.armorPointReductionFactor : Config.Combat.armorPointReductionFactorEntity);
-			finalAmount = (float) Math.max(Config.Combat.minDamage, finalAmount - (armorPoints / factor));
+			float factor = (float) ((victimEntity instanceof Player) ? ADJConfig.Combat.armorPointReductionFactor : ADJConfig.Combat.armorPointReductionFactorEntity);
+			finalAmount = (float) Math.max(ADJConfig.Combat.minDamage, finalAmount - (armorPoints / factor));
 		}
 
 		// 4. Ensure minimum damage
-		finalAmount = (float) Math.max(Math.ceil(finalAmount), Config.Combat.minDamage);
+		finalAmount = (float) Math.max(Math.ceil(finalAmount), ADJConfig.Combat.minDamage);
 
 		// 5. Handle crits
 		//    Logic adapted from AttributesLib

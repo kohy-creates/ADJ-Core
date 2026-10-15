@@ -7,6 +7,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
@@ -51,11 +52,11 @@ import xyz.kohara.adjcore.misc.ParticleTextIndicators;
 import xyz.kohara.adjcore.misc.credits.LoaderInfo;
 import xyz.kohara.adjcore.misc.credits.ModCreditsBase;
 import xyz.kohara.adjcore.misc.credits.ModInfo;
+import xyz.kohara.adjcore.misc.events.ADJChatEvent;
 import xyz.kohara.adjcore.potions.PotionsEditor;
 import xyz.kohara.adjcore.registry.*;
 import xyz.kohara.adjcore.registry.capabilities.CapabilityEvents;
 import xyz.kohara.adjcore.registry.effects.EffectsHandler;
-import xyz.kohara.adjcore.registry.effects.PotionSicknessEffect;
 import xyz.kohara.adjcore.registry.items.WingsItem;
 
 import java.util.*;
@@ -74,7 +75,7 @@ public class ADJCore {
 	public static final ResourceLocation OUTLINE_FONT = ResourceLocation.withDefaultNamespace("outline");
 
 	public ADJCore() {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC, MOD_ID + ".toml");
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ADJConfig.SPEC, MOD_ID + ".toml");
 		ADJSoundEvents.registerSounds();
 
 		IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
@@ -86,8 +87,8 @@ public class ADJCore {
 		MOD_BUS.addListener(ADJAttributes::onAttributeCreate);
 		MOD_BUS.addListener(ADJCapabilities::register);
 		MOD_BUS.addListener(LangGenerator::gatherData);
-		MOD_BUS.addListener(Config::onLoad);
-		MOD_BUS.addListener(Config::onReload);
+		MOD_BUS.addListener(ADJConfig::onLoad);
+		MOD_BUS.addListener(ADJConfig::onReload);
 
 		FORGE_BUS.register(ADJCore.class);
 		FORGE_BUS.register(DamageHandler.class);
@@ -101,7 +102,6 @@ public class ADJCore {
 		FORGE_BUS.register(ExtraLivingDrops.class);
 		FORGE_BUS.register(EffectsHandler.class);
 		FORGE_BUS.register(WingsItem.class);
-		FORGE_BUS.register(PotionSicknessEffect.class);
 
 		initRegistries(MOD_BUS);
 	}
@@ -210,12 +210,16 @@ public class ADJCore {
 		ServerPlayer player = event.getPlayer();
 		MinecraftServer server = player.getServer();
 
-		Component newMessage = Component.empty()
+		MutableComponent newMessage = Component.empty()
 				.append(Component.literal("c").withStyle(Style.EMPTY.withFont(ResourceLocation.parse("adjcore:icons"))))
 				.append(Component.literal(" [").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#8A8A8A"))))
 				.append(player.getName())
-				.append(Component.literal("] » ").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#8A8A8A"))))
-				.append(message);
+				.append(Component.literal("] » ").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#8A8A8A"))));
+
+		var chatEvent = new ADJChatEvent(message, player, server);
+		MinecraftForge.EVENT_BUS.post(chatEvent);
+
+		newMessage.append(chatEvent.getMessage());
 
 		server.getPlayerList().getPlayers().forEach(serverPlayer -> {
 			if (serverPlayer.acceptsChatMessages()) {
