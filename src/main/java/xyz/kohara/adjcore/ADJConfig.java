@@ -205,7 +205,7 @@ public class ADJConfig {
 
 		THORNS_DAMAGE_MULTIPLIER = BUILDER
 				.comment("Percentage of damage relative to damage dealth reflected back at the attacker if victim has Thorns potion effect")
-				.defineInRange("THORNS_DAMAGE_MULTIPLEIR", 0d, 5d, 1d);
+				.defineInRange("THORNS_DAMAGE_MULTIPLEIR", 1d, 0d, 5d);
 
 		BUILDER.pop();
 
