@@ -28,7 +28,8 @@ public class ADJData {
 	private static final String EXTRA_HEART_DROP_RULES = path("extra_heart_drop_rules");
 	private static final String CURIO_SLOTS_TO_KEEP = path("curio_slots_to_keep");
 	private static final String HEALING_EFFECTS = path("healing_effects");
-	private static final String X100_ATTRIBUTES = path("x100_attributes.txt");
+	private static final String X100_ATTRIBUTES = path("x100_attributes");
+	private static final String OPTIONS_BACKGROUNDS = path("options_backgrounds");
 
 	private static final List<String> deathTexts = new ArrayList<>();
 	public static final List<String> structuresIgnoreMinDistance = new ArrayList<>();
@@ -39,6 +40,7 @@ public class ADJData {
 	public static final List<String> curioSlotsToKeep = new ArrayList<>();
 	public static final List<ResourceLocation> healingEffects = new ArrayList<>();
 	public static final List<ResourceLocation> x100Attributes = new ArrayList<>();
+	public static final List<ResourceLocation> optionsBackgrounds = new ArrayList<>();
 
 	static {
 		reloadEverythingReloadable();
@@ -54,6 +56,7 @@ public class ADJData {
 		curioSlotsToKeep.clear();
 		healingEffects.clear();
 		x100Attributes.clear();
+		optionsBackgrounds.clear();
 
 		deathTexts.addAll(readLines(DEATH_TEXTS_FILE));
 		structuresIgnoreMinDistance.addAll(readLines(STRUCTURES_IGNORE_MIN_DISTANCE_FILE));
@@ -96,6 +99,11 @@ public class ADJData {
 				.stream()
 				.map(ResourceLocation::parse)
 				.forEach(x100Attributes::add);
+
+		readLines(OPTIONS_BACKGROUNDS)
+				.stream()
+				.map(ResourceLocation::parse)
+				.forEach(optionsBackgrounds::add);
 	}
 
 	private static List<String> readLines(String path) {

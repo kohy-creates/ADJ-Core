@@ -148,6 +148,7 @@
 		"client.OptionsMixin",
 		"client.PanoramaRendererMixin",
 		"client.PotionItemMixin",
+		"client.ScreenMixin",
 		"client.TippedArrowItemMixin",
 		"client.WorldListEntryMixin",
 		"client.WorldSelectionListMixin",
