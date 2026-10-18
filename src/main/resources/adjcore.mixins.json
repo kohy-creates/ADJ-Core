@@ -143,6 +143,7 @@
 		"client.ItemInHandRendererMixin",
 		"client.ItemStackItemNameMixin",
 		"client.LivingEntityRendererMixin",
+		"client.LocalPlayerMixin",
 		"client.LogoRendererMixin",
 		"client.MinecraftMixin",
 		"client.OptionsMixin",
