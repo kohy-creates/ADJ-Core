@@ -1,7 +1,7 @@
 package xyz.kohara.adjcore.registry.effects;
 
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -39,16 +39,18 @@ public class EffectsHandler {
 		}
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onLivingHurt(LivingHurtEvent event) {
 		var source = event.getSource();
-		if (source.is(ADJTags.DamageTypes.THORNS_BLACKLIST)) return;
-
 		var attacker = source.getEntity();
-		if (attacker != null) {
-			var victim = event.getEntity();
-			if (victim.hasEffect(ADJEffects.THORNS.get())) {
-				attacker.hurt(attacker.damageSources().thorns(victim), (float) (event.getAmount() * ADJConfig.Combat.thornsDamageMultiplier));
+		var victim = event.getEntity();
+		if (attacker instanceof LivingEntity le) {
+			if (!source.is(ADJTags.DamageTypes.THORNS_BLACKLIST) && victim.hasEffect(ADJEffects.THORNS.get())) {
+				le.hurt(attacker.damageSources().thorns(victim), (float) (event.getAmount() * ADJConfig.Combat.thornsDamageMultiplier));
+			}
+			if (le.hasEffect(ADJEffects.SHADOWMELTED.get())) {
+				event.setAmount((float) (event.getAmount() * ADJConfig.Combat.shadowMeltedDamageMultiplier));
+				le.removeEffect(ADJEffects.SHADOWMELTED.get());
 			}
 		}
 	}

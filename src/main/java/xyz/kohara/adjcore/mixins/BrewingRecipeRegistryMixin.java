@@ -2,7 +2,6 @@ package xyz.kohara.adjcore.mixins;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -47,14 +46,25 @@ public class BrewingRecipeRegistryMixin {
 			cancellable = true
 	)
 	private static void makeMoreItemsBrewableAndPreventOverwriting(NonNullList<ItemStack> inputs, ItemStack ingredient, int[] inputIndexes, CallbackInfoReturnable<Boolean> cir) {
-		if (inputs.isEmpty()) cir.setReturnValue(false);
-
+		boolean hasInputs = false;
 		for (var i : inputs) {
-			if (!PotionUtils.getMobEffects(i).isEmpty()) cir.setReturnValue(false);
+			if (!i.isEmpty()) {
+				hasInputs = true;
+				break;
+			}
 		}
 
-		if (!ingredient.isEmpty())
-			cir.setReturnValue(ingredient.is(ADJTags.Items.BREWING_INGREDIENTS));
+		if (!hasInputs) {
+			cir.setReturnValue(false);
+			cir.cancel();
+			return;
+		}
+
+		if (!ingredient.isEmpty()) {
+			boolean isValidIngredient = ingredient.is(ADJTags.Items.BREWING_INGREDIENTS);
+			cir.setReturnValue(isValidIngredient);
+			cir.cancel();
+		}
 	}
 
 	@Inject(

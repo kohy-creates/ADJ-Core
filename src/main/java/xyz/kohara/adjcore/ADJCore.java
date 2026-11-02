@@ -13,6 +13,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -322,7 +323,7 @@ public class ADJCore {
 		}
 		return base;
 	}
-
+	
 	public static void setPlayerManaRegenDelay(Player player, IManaCap manaCap) {
 		double i1 = 1d - (manaCap.getCurrentMana() / manaCap.getMaxMana());
 		double regenDelay = 0.7d * (i1 * 240d + 45);
@@ -332,6 +333,4 @@ public class ADJCore {
 		int delay = (int) Math.ceil(regenDelay / 4);
 		player.adjcore$setManaRegenDelay(delay);
 	}
-
-
 }

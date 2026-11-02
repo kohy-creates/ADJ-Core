@@ -24,6 +24,6 @@ public class ThornsMixin {
 
     @Inject(method = "getDamage", cancellable = true, at = @At("HEAD"))
     private static void getDamageAmount(int level, RandomSource random, CallbackInfoReturnable<Integer> cir) {
-            cir.setReturnValue(7 + random.nextInt((level - 1) * 8));
+            cir.setReturnValue(7 + (level > 1 ? random.nextInt((level - 1) * 8) : 0));
     }
 }

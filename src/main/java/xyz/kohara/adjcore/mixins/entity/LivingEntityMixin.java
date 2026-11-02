@@ -1,5 +1,6 @@
 package xyz.kohara.adjcore.mixins.entity;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -8,6 +9,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,6 +35,7 @@ import xyz.kohara.adjcore.ADJConfig;
 import xyz.kohara.adjcore.combat.HealingWithSourceEntity;
 import xyz.kohara.adjcore.combat.KnockbackCooldown;
 import xyz.kohara.adjcore.misc.events.ADJHealEvent;
+import xyz.kohara.adjcore.registry.ADJEffects;
 
 import java.util.UUID;
 
@@ -57,6 +60,9 @@ public abstract class LivingEntityMixin extends Entity implements KnockbackCoold
 
 	@Shadow
 	public abstract void heal(float healAmount);
+
+	@Shadow
+	public abstract boolean hasEffect(MobEffect effect);
 
 	// Yeeting Resistance effect logic out of here
 	@Inject(
@@ -194,5 +200,10 @@ public abstract class LivingEntityMixin extends Entity implements KnockbackCoold
 	private void overrideVerticalKnockback(LivingEntity entity, double x, double y, double z, Operation<Void> original, @Local(argsOnly = true, ordinal = 0) double strength, @Local(ordinal = 0) Vec3 vec3) {
 		double amount = Math.min(0.4, Math.abs(vec3.y) / 2.0 + strength);
 		original.call(entity, x, this.onGround() ? amount : amount / 3d, z);
+	}
+
+	@ModifyExpressionValue(method = "updateInvisibilityStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hasEffect(Lnet/minecraft/world/effect/MobEffect;)Z"))
+	private boolean addShadowFormInvisibility(boolean original) {
+		return original || this.hasEffect(ADJEffects.SHADOWMELTED.get());
 	}
 }

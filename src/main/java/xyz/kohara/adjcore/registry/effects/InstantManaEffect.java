@@ -17,8 +17,7 @@ public class InstantManaEffect extends InstantenousMobEffect {
     @Override
     public void applyInstantenousEffect(@Nullable Entity source, @Nullable Entity indirectSource, @NotNull LivingEntity livingEntity, int amplifier, double health) {
         if (livingEntity instanceof Player player) {
-            player.adjcore$restoreMana(70 * amplifier, true);
+            player.adjcore$restoreMana(50 * (amplifier + 1), true);
         }
     }
-
 }

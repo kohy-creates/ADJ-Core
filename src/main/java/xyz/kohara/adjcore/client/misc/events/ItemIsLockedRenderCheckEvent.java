@@ -16,20 +16,20 @@ import net.minecraftforge.eventbus.api.Event;
 import xyz.kohara.adjcore.compat.kubejs.ClientEvents;
 import xyz.kohara.adjcore.compat.kubejs.clientevents.ItemIsLockedRenderCheckEventJS;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 @Cancelable
 public class ItemIsLockedRenderCheckEvent extends Event {
 
-	private static final Set<Item> cache = new HashSet<>();
+	private static final Map<Item, Boolean> cache = new HashMap<>();
 
 	public static void tick(Minecraft minecraft) {
 		ClientLevel level = minecraft.level;
 		if (level != null) {
 			var gameTime = minecraft.level.getGameTime();
-			if (gameTime % 60 == 0) {
+			if (gameTime % 200 == 0) {
 				cache.clear();
 			}
 		}
@@ -37,15 +37,16 @@ public class ItemIsLockedRenderCheckEvent extends Event {
 
 	public static boolean shouldHide(ItemStack itemStack, LocalPlayer localPlayer) {
 		var item = itemStack.getItem();
-		if (cache.contains(item)) return true;
+		if (cache.containsKey(item)) return cache.get(item);
 		var eventHook = new ItemIsLockedRenderCheckEvent(
 				itemStack,
 				localPlayer
 		);
 		if (MinecraftForge.EVENT_BUS.post(eventHook)) {
-			cache.add(itemStack.getItem());
+			cache.put(item, true);
 			return true;
 		}
+		cache.put(item, false);
 		return false;
 	}
 

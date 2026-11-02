@@ -64,6 +64,7 @@
 		"compat.evilcraft.WorldStructureDarkTemplePieceMixin",
 		"compat.mutantmonsters.PlayerEventsHandlerMixin",
 		"compat.mutantmonsters.SkeletonArmorItemMixin",
+		"compat.scguns.ProjectileEntityMixin",
 		"compat.twilightforest.CapabilityEventsMixin",
 		"compat.twilightforest.EnforcementMixin",
 		"compat.twilightforest.MazeStructureMixin",

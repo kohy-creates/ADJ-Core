@@ -20,6 +20,8 @@ public class ADJConfig {
 	private static final ForgeConfigSpec.DoubleValue ARMOR_POINT_REDUCTION_FACTOR_ENTITY;
 	private static final ForgeConfigSpec.DoubleValue ARMOR_DURABILITY_DAMAGE_FACTOR;
 	private static final ForgeConfigSpec.IntValue MAX_DAMAGE_IN_ONE_HIT;
+	private static final ForgeConfigSpec.DoubleValue THORNS_DAMAGE_MULTIPLIER;
+	private static final ForgeConfigSpec.DoubleValue SHADOWMELTED_DAMAGE;
 
 	private static final ForgeConfigSpec.DoubleValue CAMPFIRE_HEAL_RADIUS;
 	private static final ForgeConfigSpec.DoubleValue CAMPFIRE_HEAL_RADIUS_SIGNAL;
@@ -40,7 +42,6 @@ public class ADJConfig {
 	private static final ForgeConfigSpec.DoubleValue SHALLOW_WATER_WALK_MULTIPLIER;
 	private static final ForgeConfigSpec.DoubleValue SPRINT_MULTIPLIER;
 	private static final ForgeConfigSpec.DoubleValue BLOCK_MINING_MULTIPLIER;
-	private static final ForgeConfigSpec.DoubleValue THORNS_DAMAGE_MULTIPLIER;
 
 	public static class Combat {
 		public static int shieldDelay;
@@ -54,6 +55,7 @@ public class ADJConfig {
 		public static double armorDurabilityDamageFactor;
 		public static int maxDamageInOneHit;
 		public static double thornsDamageMultiplier;
+		public static double shadowMeltedDamageMultiplier;
 	}
 
 	public static class Tools {
@@ -98,6 +100,7 @@ public class ADJConfig {
 		Combat.armorDurabilityDamageFactor = ARMOR_DURABILITY_DAMAGE_FACTOR.get();
 		Combat.maxDamageInOneHit = MAX_DAMAGE_IN_ONE_HIT.get();
 		Combat.thornsDamageMultiplier = THORNS_DAMAGE_MULTIPLIER.get();
+		Combat.shadowMeltedDamageMultiplier = SHADOWMELTED_DAMAGE.get();
 
 		Campfire.healRadius = CAMPFIRE_HEAL_RADIUS.get();
 		Campfire.healRadiusSignal = CAMPFIRE_HEAL_RADIUS_SIGNAL.get();
@@ -206,6 +209,10 @@ public class ADJConfig {
 		THORNS_DAMAGE_MULTIPLIER = BUILDER
 				.comment("Percentage of damage relative to damage dealth reflected back at the attacker if victim has Thorns potion effect")
 				.defineInRange("THORNS_DAMAGE_MULTIPLEIR", 1d, 0d, 5d);
+
+		SHADOWMELTED_DAMAGE = BUILDER
+				.comment("Extra damage dealt while under the effect of Shadowmelted")
+				.defineInRange("SHADOWMELTED_DAMAGE", 2.5d, 0d, 1000d);
 
 		BUILDER.pop();
 

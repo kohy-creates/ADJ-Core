@@ -78,7 +78,7 @@ public class ADJEffects {
 
 	public static final RegistryObject<MobEffect> IRON_SKIN = register(
 			"iron_skin",
-			new ArcheryEffect(),
+			new IronSkinEffect(),
 			"Ironskin",
 			"Increase defense by 6"
 	);
@@ -95,6 +95,13 @@ public class ADJEffects {
 			new ThornsEffect(),
 			"Thorns",
 			"Attacks also take damage"
+	);
+
+	public static final RegistryObject<MobEffect> SHADOWMELTED = register(
+			"shadowmelted",
+			new ShadowMeltedEffect(),
+			"Shadowmelted",
+			"Invisible; next attack deals massively increased damage."
 	);
 
 
